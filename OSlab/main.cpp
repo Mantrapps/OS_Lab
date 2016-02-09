@@ -1,9 +1,9 @@
 //
 //  main.cpp
-//  OSlab
+//  OS Project-1
 //
 //  Created by Kaiz on 2/1/16.
-//  Copyright © 2016 Mantrapps. All rights reserved.
+//  Email:kxz160030@utdallas.edu
 //
 
 #include <iostream>
