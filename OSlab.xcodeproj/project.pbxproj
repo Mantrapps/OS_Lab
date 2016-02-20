@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A67707831C79139B00A11A02 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A67707821C79139B00A11A02 /* Memory.cpp */; };
 		A68E4AAC1C6016BB00473627 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68E4AAB1C6016BB00473627 /* main.cpp */; };
 		A68E4AB41C602AFB00473627 /* OS-Project01.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68E4AB21C602AFB00473627 /* OS-Project01.cpp */; };
-		A68E4AB61C602E9E00473627 /* OS-Project02.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68E4AB51C602E9E00473627 /* OS-Project02.cpp */; };
+		A68E4AB61C602E9E00473627 /* CPU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68E4AB51C602E9E00473627 /* CPU.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,11 +26,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A67707821C79139B00A11A02 /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
 		A68E4AA81C6016BB00473627 /* OSlab */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OSlab; sourceTree = BUILT_PRODUCTS_DIR; };
 		A68E4AAB1C6016BB00473627 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A68E4AB21C602AFB00473627 /* OS-Project01.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "OS-Project01.cpp"; sourceTree = "<group>"; };
 		A68E4AB31C602AFB00473627 /* OS-Project01.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "OS-Project01.hpp"; sourceTree = "<group>"; };
-		A68E4AB51C602E9E00473627 /* OS-Project02.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "OS-Project02.cpp"; sourceTree = "<group>"; };
+		A68E4AB51C602E9E00473627 /* CPU.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPU.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +66,8 @@
 			children = (
 				A68E4AAB1C6016BB00473627 /* main.cpp */,
 				A68E4AB21C602AFB00473627 /* OS-Project01.cpp */,
-				A68E4AB51C602E9E00473627 /* OS-Project02.cpp */,
+				A68E4AB51C602E9E00473627 /* CPU.cpp */,
+				A67707821C79139B00A11A02 /* Memory.cpp */,
 				A68E4AB31C602AFB00473627 /* OS-Project01.hpp */,
 			);
 			path = OSlab;
@@ -126,9 +129,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A67707831C79139B00A11A02 /* Memory.cpp in Sources */,
 				A68E4AB41C602AFB00473627 /* OS-Project01.cpp in Sources */,
 				A68E4AAC1C6016BB00473627 /* main.cpp in Sources */,
-				A68E4AB61C602E9E00473627 /* OS-Project02.cpp in Sources */,
+				A68E4AB61C602E9E00473627 /* CPU.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

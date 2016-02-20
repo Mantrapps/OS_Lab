@@ -1,8 +1,9 @@
 //
 //  main.cpp
 //  OS Project-1
+//  Multi-Process
 //
-//  Created by Kaiz on 2/1/16.
+//  Created by Kai Zhu on 2/1/16.
 //  Email:kxz160030@utdallas.edu
 //
 
