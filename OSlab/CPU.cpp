@@ -1,9 +1,9 @@
 //
 //  CPU.cpp
-//  OSlab
+//  OSProject1
 //
-//  Created by Kaiz on 2/1/16.
-//  Copyright © 2016 Mantrapps. All rights reserved.
+//  Created by Kaiz on 2/20/16.
+//  kxz160030@utdallas.edu
 //
 
 #include <stdio.h>

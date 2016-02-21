@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  OS Project-1
+//  OSProject-1
 //  Multi-Process
 //
 //  Created by Kai Zhu on 2/1/16.
@@ -9,40 +9,17 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <stdlib.h>
+#include "Memory.h"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("--beginning of program\n");
-    
-    int counter = 0;
-    pid_t pid = fork();
-    
-    if (pid == 0)
-    {
-        // child process
-        int i = 0;
-        for (; i < 5; ++i)
-        {
-            printf("child process: counter=%d\n", ++counter);
-        }
-    }
-    else if (pid > 0)
-    {
-        // parent process
-        int j = 0;
-        for (; j < 5; ++j)
-        {
-            printf("parent process: counter=%d\n", ++counter);
-        }
-    }
-    else
-    {
-        // fork failed
-        printf("fork() failed!\n");
-        return 1;
-    }
-    
-    printf("--end of program--\n");
-    
-    return 0;
+using namespace std;
+using namespace Project1;
+
+int main()
+{
+    cout<< "Start Initiate Memory..."<<endl;
+    Memory* new_Memory=new Memory();
+    cout<<"Memory is Ready"<<endl;
+    cout<< "Memory size is:" << new_Memory->Memory_Max<<endl;
+    delete new_Memory;
 }
