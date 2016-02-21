@@ -11,6 +11,7 @@
 
 namespace Project1
 {
+    typedef unsigned char byte;
     class Memory{
     public:
         // Max Memory Size
@@ -26,12 +27,12 @@ namespace Project1
         void clear();
         
         //Load value from the address in memory
-        const char& Read_Memory(const char& Address);
+        const byte& Read_Memory(const byte& Address);
         
         //Store value to the address in memory
-        void Write_Memory(const char& Address, const char& Value);
+        void Write_Memory(const byte& Address, const byte& Value);
     private:
-        char* Memory_Space;
+        byte* Memory_Space;
         
     };
     

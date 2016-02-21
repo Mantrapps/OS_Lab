@@ -11,7 +11,7 @@
 
 namespace Project1 {
     
-    Memory::Memory():Memory_Max(20), Memory_Space(new char[Memory_Max])
+    Memory::Memory():Memory_Max(2000), Memory_Space(new byte[Memory_Max])
     {
         clear();
     }
@@ -25,17 +25,17 @@ namespace Project1 {
     }
     void Memory::clear()
     {
-        for (char i=0; i< Memory_Max; i++)
+        for (byte i=0; i< Memory_Max; i++)
         {
             Memory_Space[i]=0;
         }
     }
-    const char& Memory::Read_Memory(const char& address)
+    const byte& Memory::Read_Memory(const byte& address)
     {
         return Memory_Space[address];
     }
     
-    void Memory::Write_Memory(const char& address, const char& Value)
+    void Memory::Write_Memory(const byte& address, const byte& Value)
     {
         Memory_Space[address]=Value;
     }

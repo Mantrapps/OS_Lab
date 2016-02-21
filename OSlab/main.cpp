@@ -22,9 +22,9 @@ int main()
     cout<<"Memory is Ready"<<endl;
     cout<< "Memory size is:" << (int)new_Memory->Memory_Max<<endl;
     
-    for(char currentAddress=0; currentAddress< new_Memory->Memory_Max;currentAddress++)
+    for(byte currentAddress=0; currentAddress< new_Memory->Memory_Max;currentAddress++)
     {
-        cout<<"Address ["<< currentAddress<< "]="<<new_Memory->Read_Memory(currentAddress);
+        cout<<"Address ["<< (int)currentAddress<< "]="<<(int)new_Memory->Read_Memory(currentAddress);
     }
     delete new_Memory;
 }
