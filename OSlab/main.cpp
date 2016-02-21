@@ -20,6 +20,11 @@ int main()
     cout<< "Start Initiate Memory..."<<endl;
     Memory* new_Memory=new Memory();
     cout<<"Memory is Ready"<<endl;
-    cout<< "Memory size is:" << new_Memory->Memory_Max<<endl;
+    cout<< "Memory size is:" << (int)new_Memory->Memory_Max<<endl;
+    
+    for(char currentAddress=0; currentAddress< new_Memory->Memory_Max;currentAddress++)
+    {
+        cout<<"Address ["<< currentAddress<< "]="<<new_Memory->Read_Memory(currentAddress);
+    }
     delete new_Memory;
 }
