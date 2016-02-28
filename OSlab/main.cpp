@@ -79,9 +79,11 @@ int main(int argc, char* argv[])
         //close memory read
         close(memory_pipe[0]);
         //Memory Initiation
-        printf("Now Memory Initiation!\n");
+        printf("Memory is initiating!\n");
         //Memory Initiation
         Memory new_Memory(cpu_pipe[0],memory_pipe[1], file_path);
+        printf("Program execution result: \n");
+        std::cout<<std::endl;
         new_Memory.Memory_Loading();
         while (new_Memory.Memory_current_status()!=Memory_End) {
             new_Memory.m_response();
@@ -99,9 +101,8 @@ int main(int argc, char* argv[])
         //close memory write
         close(memory_pipe[1]);
         //CPU Print Pid  Need delete
-        printf("Parent: child's pid is %d\n",pid);
-        //??
-        int count=200;
+        printf("Program is executing and child's pid is %d\n",pid);
+
         //CPU Initiation
         CPU new_CPU(memory_pipe[0],cpu_pipe[1], interrupt_time);
         while (new_CPU.CPU_Current_Status()!=CPU_End) {
@@ -109,13 +110,7 @@ int main(int argc, char* argv[])
             new_CPU.Fetch();
             new_CPU.Decode();
             new_CPU.Interrupt_Timer();
-            ///??
-            //new_CPU.Fetch();
-            //new_CPU.Decode();
-            //new_CPU.Interrupt_Timer();
         }
-        cout<<"CPU RUNNING "<<count<<" times"<<endl;
-        //???
         //exit(1);
         //close cpu write
         close(cpu_pipe[1]);
@@ -153,47 +148,16 @@ int main(int argc, char* argv[])
             else if(WIFSTOPPED(status))
             {
                 cout<<"Child stopped via signal"<< WSTOPSIG(status)<<endl;
-            }//Need continue??
+            }
             else {
                 cout<<"Unexpected status " <<status<<endl;
             }
             
-            }
+        }
+        
     }
 
     
     
     return 0;
-    
-    
-   /*
-    cout<< "Start Initiate Memory..."<<endl;
-    Memory* new_Memory=new Memory();
-    cout<<"Memory is Ready"<<endl;
-    cout<< "Memory size is:" << (int)new_Memory->Memory_Max<<endl;
-    new_Memory->Write_Memory(0,1);
-    new_Memory->Write_Memory(1,51);
-    new_Memory->Write_Memory(2,3);
-    new_Memory->Write_Memory(3,50);
-    
-    cout << "Creating the CPU instance...";
-    CPU* new_CPU = new CPU(new_Memory);
-    cout << "Ready" << endl;
-    
-    cout << "Starting..." << endl;
-    new_CPU->Run();
-    cout << "Complete" << endl;
-    
-    // We must delete our CPU before the memory, because
-    // the CPU uses the memory, and the CPU constructor
-    // breaks the link to the memory when its "~CPU" function
-    // sets "m-TheMemory = nullptr;"
-    for (int current=0; current<new_Memory->Memory_Max; current++) {
-        cout<<"Address ["<<(int)current<<"]= "<<(int)new_Memory->Read_Memory(current)<<endl;
-    }
-    
-    delete new_CPU;
-    
-    delete new_Memory;
-    */
 }

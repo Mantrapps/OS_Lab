@@ -83,14 +83,12 @@ namespace Project1 {
                         bool match2=regex_search(tmp2, result2, pattern2);
                         if(match2){
                         Memory_address=stoi(result2.str());
-                        ///???
-                        std::cout<<"change address to "<<result2.str()<<std::endl;
+                        //std::cout<<"change address to "<<result2.str()<<std::endl;
                         }
                     }
                     else{
                         Memory_Space[Memory_address]=stoi(result.str());
-                        //???
-                        std::cout<<result.str()<<" at: "<<Memory_address<<std::endl;
+                        //std::cout<<result.str()<<" at: "<<Memory_address<<std::endl;
                         Memory_address++;
                     }
                 }
@@ -100,7 +98,6 @@ namespace Project1 {
         }
         else
         {
-            ///????
             ifs.close();
             std::cout<<"The file you input not exist or not supported!"<<std::endl;
             Memory_Status=Memory_End;
@@ -149,7 +146,6 @@ namespace Project1 {
             return false;
         }
     }
-    //???
     bool Memory::CPU_Write_Memory(int Address, C_Mode CPU_Mode, int data)
     {
         if (Memory_Address_Validation(Address, CPU_Mode)) {
@@ -220,7 +216,6 @@ namespace Project1 {
             
             std::cout<<"Memory is ending!!"<<std::endl;
         }
-        ///??? User mode or system mode
     }
     void Memory::Run()
     {

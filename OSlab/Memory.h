@@ -29,7 +29,6 @@ namespace Project1
 
     const int User_Stack=1000;
     const int Sys_Stack=2000;
-    //Need?
     const int Timer_Interrupt_Start=1000;
     const int Sys_Interrupt_Start=1500;
 

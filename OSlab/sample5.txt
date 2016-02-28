@@ -1,16 +1,160 @@
-1
-72
-9
-2
-1
-73
-9
-2
-23
-11
+23   // line one
+15                     //update
+23   // line two 
+32                     //update
+23   // line three 
+49
+23   // line four 
+66
+23   // line five 
+83
+23   // line six 
+100
+23   // line seven 
+117
 50
+1   // line 1 begin    
+124  
+9     
+2
+1    ld 4
+4         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+47
+9
+2
+23   call newline
+148   //Update
+24   return  //line 1 end
+1  // line two begin
+124
+9
+2
+1    ld 4
+3         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+47
+9
+2
+23   call newline
+148   //Update
+24   return  //line two end
+1    ld /  // line three beigin
+124
+9    output
+2
+1    ld 4
+2         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+47
+9
+2
+23   call newline
+148   //Update
+24   return // line 3 end
+1    load |  // line four begin
+124
+9    put
+2
+1    ld 4
+1         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1    load | 
+124
+9    put
+2
+23   call newline
+148
+24   // line four end
+1    load \   // line five begin
+124    
+9
+2
+1    ld 4
+2         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+92
+9
+2
+23   call newline
+148
+24   return  //line 5 end
+1        // line six start
+124    
+9
+2
+1    ld 4
+3        
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+92
+9
+2
+23   call newline
+148
+24   return //line six end   
+1    ld 4   // line seven start
+124    
+9
+2
+1    ld 4
+4         
+27   push
+23   call spaces
+134   //update
+28   remove parm 
+1
+92
+9
+2
+23   call newline
+148
+24   return  //line seven end
+
+
+1    ld 1
+1 
+14   CopyToX
+6    LoadSpX  - get parm
+14   CopyToX
+1    ld ' ' 
+32
+9    output
+2
+26   decX
+15   CopyFromX
+22   JNE 211
+139
+24
+
+      // print newline 
 1
 10
 9
 2
 24
+
+.1000
+30   interrupt handler - just return

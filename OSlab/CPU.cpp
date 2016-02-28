@@ -50,8 +50,6 @@ namespace Project1 {
         
         CPU_Send_Request_Read(CPU_Mode, Reg_PC);
         CPU_Get_Response(Reg_IR);
-        //???
-        
         Reg_PC++;
         //std::cout<<"Fetch Complete: PC "<<Reg_PC<<" IR: "<<Reg_IR<<" AC: "<<Reg_AC<<" sp: "<<Reg_SP<<" x: "<<Reg_X<<" y: "<<Reg_Y<<" "<<CPU_Mode<<std::endl;
         // need watch out if there is over bound to Sys mode
@@ -272,7 +270,6 @@ namespace Project1 {
             perror("CPU get response from memory failed");
             return false;
         }
-        //??? Response Messge deal with
         Memory_res=Memory_Response_CPU.execute_result;
         return_val=Memory_Response_CPU.data;
         return true;
@@ -375,7 +372,6 @@ namespace Project1 {
         {
             std::cout<<static_cast<char>(Reg_AC);
         }
-        //???Error
     }
     //10
     void CPU::AddX()
@@ -526,7 +522,8 @@ namespace Project1 {
         CPU_Status=CPU_End;
         //CPU_Send_Request_Read(CPU_Mode, 0);
         //???
-        std::cout<<"CALL 50"<<std::endl;
+        std::cout<<std::endl;
+        std::cout<<"The program execution is end."<<std::endl;
 
     }
     
