@@ -158,7 +158,7 @@ public:
 };
 
 //Initiate DB in server
-Server_DB s_db;
+//Server_DB s_db;
 
 int main(int argc, char *argv[])
 {
@@ -289,6 +289,7 @@ void* handleClient(void *arg)
     client_input=std::string(buf);
     
     //Store Connection id  ???
+    /*
     sem_wait(&Connect_id);
     //IF exist user and connected, deny access
     if(s_db.access_check(client_input))
@@ -300,12 +301,11 @@ void* handleClient(void *arg)
         snprintf(temp, BUFSIZE, "%s Existed! Access Denied!!!", buf);
     }
     sem_post(&Connect_id);
-    
-    //Store User Name; Mark as known; Mark as connecting
+    */
     
     //strcat(connected_user,buf);
 
-    //snprintf(temp, BUFSIZE, "Hi %s", buf);
+    snprintf(temp, BUFSIZE, "Hi %s", buf);
     
     //need semaphore
     
