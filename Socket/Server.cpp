@@ -68,7 +68,7 @@ public:
     Server_DB()
     {
         for (int i=0; i<Max_Known_Users; i++) {
-            //stc_clients[i].name=nullptr;
+            stc_clients[i].name="";
             stc_clients[i].known=false;
             stc_clients[i].connected=false;
             //???
