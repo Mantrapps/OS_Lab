@@ -101,12 +101,12 @@ public:
     std::string display_all_known_users()
     {
         message="Knoown users:\n";
-        printf("I'm here1");
+        printf("I'm here1\n");
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known) {
                 message.append(stc_clients[i].name.c_str());
                 message.append("\n");
-                printf("I'm here2");
+                printf("I'm here2\n");
             }
         }
         return message;
@@ -353,7 +353,7 @@ void* handleClient(void *arg)
             case '1':
                 printf("1. Client %s sent \n",client_name.c_str());
                 strcpy(temp,s_db.display_all_known_users().c_str());
-                printf("I'm here3");
+                printf("I'm here3\n");
                 break;
             case '2':
                 printf("2. Client sent %c \n", buf[0]);
@@ -374,9 +374,9 @@ void* handleClient(void *arg)
                 continue;
                 break;
         }
-        printf("I'm here4");
+        printf("I'm here4\n");
 
-        strcpy(temp,"shoudao");
+        //strcpy(temp,"shoudao");
         if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
             perror("write");
             exit(1);
