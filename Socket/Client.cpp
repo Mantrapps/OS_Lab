@@ -130,17 +130,17 @@ int main(int argc, char *argv[])
     Print_Menu();
 
     while (1) {
-        int input=0;
-        std::cin>>input;
-        string name;
-        string message;
-        if (input==7) {
+        
+        printf("Enter your choice: ");
+        std::cin.getline(name,sizeof(name));
+        if (name[0]==7) {
             close(sd);
             break;
         }
        
-        switch (input) {
+        switch (name[0]) {
             case 1:
+                printf("\n(%s)\n", ins);
                 strncpy(ins, "1", 1);
                 printf("\n(%s)\n", ins);
                 break;
