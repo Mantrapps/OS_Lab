@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
     /* ask user for name */
     printf("Enter your name: ");
     
-    std::cin>>name;
+    std::cin.getline(name,sizeof(name));
     //fgets(name, sizeof(name), stdin);
     
     /* send the name to the server */
