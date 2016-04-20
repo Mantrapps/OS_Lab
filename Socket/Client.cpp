@@ -133,22 +133,22 @@ int main(int argc, char *argv[])
         
         printf("Enter your choice: ");
         std::cin.getline(name,sizeof(name));
-        printf("\n(%hhd)\n", string(name).at(0));
-        if (name[0]==7) {
+        printf("\n(%hhd)\n", name[0]);
+        if (strcmp(name, "7")==0) {
             close(sd);
             break;
         }
        
         switch (name[0]) {
-            case 1:
+            case '1':
                 printf("\n(%s)\n", ins);
                 strncpy(ins, "1", 1);
                 printf("\n(%s)\n", ins);
                 break;
-            case 2:
+            case '2':
                 strncpy(ins, "2", 1);
                 break;
-            case 3://Message to someone
+            case '3'://Message to someone
                 strncpy(ins, "3", sizeof(ins));
                 /*cout << "Who:";
                 cin>>name;
@@ -158,13 +158,13 @@ int main(int argc, char *argv[])
                 strcat(ins, );
                  */
                 break;
-            case 4://Message to every current connected person
+            case '4'://Message to every current connected person
                 strncpy(ins, "4", sizeof(ins));
                 break;
-            case 5://message to every known person
+            case '5'://message to every known person
                 strncpy(ins, "5", sizeof(ins));
                 break;
-            case 6:
+            case '6':
                 strncpy(ins, "6", 1);
                 break;
             default:
