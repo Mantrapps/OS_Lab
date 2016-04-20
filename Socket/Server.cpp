@@ -335,7 +335,7 @@ void* handleClient(void *arg)
     }
     printf("Server sent %d bytes\n", count);
     
-    
+    //??? if client control+c to stop the socket, then server will keep while loop
     while (strcmp(temp, "deny")!=0)
     {
         /* read a message from the client */

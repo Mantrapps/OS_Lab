@@ -105,7 +105,9 @@ int main(int argc, char *argv[])
     
     /* ask user for name */
     printf("Enter your name: ");
-    fgets(name, sizeof(name), stdin);
+    
+    std::cin>>name;
+    //fgets(name, sizeof(name), stdin);
     
     /* send the name to the server */
     if ((count = write(sd, name, strlen(name)+1)) == -1) {
