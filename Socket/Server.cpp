@@ -99,24 +99,33 @@ public:
     //Menu-1 Display the names of all known users
     void display_all_known_users()
     {
-        
+        printf("wo shi 1");
     }
     //Menu-2 Display the names of all currently connected users
     void display_all_connecting_users(char user_name)
     {
-        
+        printf("wo shi 2");
     }
     //Menu-3 Send a text message to a particular user
     void message_to ()
     {
-        
+        printf("wo shi 3");
     }
     //Menu-4 Send a text message to all currently connected users
     void message_to_connecting_users()
-    {}
+    {
+        printf("wo shi 4");
+    }
     //Menu-5 Send a text message to all known users
     void message_to_known_users()
-    {}
+    {
+        printf("wo shi 5");
+    }
+    //Menu-6 Get My Messages
+    void Get_my_messages()
+    {
+        printf("wo shi 6");
+    }
     //check if server known this customer
     bool client_known(int i)
     {
@@ -326,6 +335,7 @@ void* handleClient(void *arg)
         }
         printf("Server read %d bytes\n", count);//???
         client_input=std::string(buf);
+        printf("Client sent %s \n", client_input.c_str());
         /*
         if (client_input==7) {
             break;

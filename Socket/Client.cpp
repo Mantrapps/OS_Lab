@@ -124,10 +124,12 @@ int main(int argc, char *argv[])
     printf("\n\n%s\n\n", buf);
     
     Print_Menu();
-    int input;
+
     while (1) {
+        int input=0;
         std::cin>>input;
-        
+        char name;
+        char message;
         if (input==7) {
             close(sd);
             break;
@@ -142,6 +144,12 @@ int main(int argc, char *argv[])
                 break;
             case 3://Message to someone
                 strncpy(ins, "3", sizeof(ins));
+                cout << "Who:";
+                cin>>name;
+                cout << "What:";
+                cin>>message;
+                strcat(ins, &name);
+                strcat(ins, &message);
                 break;
             case 4://Message to every current connected person
                 strncpy(ins, "4", sizeof(ins));
