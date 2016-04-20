@@ -71,7 +71,7 @@ public:
             stc_clients[i].name="";
             stc_clients[i].known=false;
             stc_clients[i].connected=false;
-            //???
+            //??? message_amount
         }
     }
     // Connecting
@@ -299,6 +299,11 @@ void* handleClient(void *arg)
     else
     {
         snprintf(temp, BUFSIZE, "%s Existed! Access Denied!!!", buf);
+        if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
+            perror("write");
+            exit(1);
+        }
+        printf("Server sent %d bytes\n", count);
     }
     sem_post(&Connect_id);
     //Store User Name; Mark as known; Mark as connecting
@@ -309,13 +314,52 @@ void* handleClient(void *arg)
     
     //need semaphore
     
-    
     /* send a string back to client */
-    if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
-        perror("write");
-        exit(1);
+
+    while (1)
+    {
+        /* read a message from the client */
+        if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
+            perror("read");
+            exit(1);
+        }
+        printf("Server read %d bytes\n", count);//???
+        client_input=std::string(buf);
+        /*
+        if (client_input==7) {
+            break;
+        }
+        switch (client_input) {
+            case 1:
+                //
+                break;
+            case 2:
+                //
+                break;
+            case 3://Message to someone
+                //
+                break;
+            case 4://Message to every current connected person
+                //
+                break;
+            case 5://message to every known person
+                //
+                break;
+            case 6:
+                //
+                break;
+            default:
+                continue;
+                break;
+        }
+         */
+        strcat(temp,"shoudao");
+        if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
+            perror("write");
+            exit(1);
+        }
+        printf("Server sent %d bytes\n", count);
     }
-    printf("Server sent %d bytes\n", count);
     
     /* close socket */
     close(sd);

@@ -49,8 +49,10 @@ int main(int argc, char *argv[])
     int port;
     //
     char buf[BUFSIZE];
-    //
+    // User Name
     char name[100];
+    // User Instruction and message
+    char ins[BUFSIZE];
     // socket
     int sd;
     //
@@ -106,7 +108,7 @@ int main(int argc, char *argv[])
     fgets(name, sizeof(name), stdin);
     
     /* send the name to the server */
-    if ( (count = write(sd, name, strlen(name)+1)) == -1) {
+    if ((count = write(sd, name, strlen(name)+1)) == -1) {
         perror("Error on write call");
         exit(1);
     }
@@ -121,38 +123,58 @@ int main(int argc, char *argv[])
     /* print the received message */
     printf("\n\n%s\n\n", buf);
     
-    
     Print_Menu();
-    
     int input;
-    while (std::cin>>input) {
+    while (1) {
+        std::cin>>input;
+        
         if (input==7) {
             close(sd);
             break;
         }
+       
         switch (input) {
             case 1:
-                //
+                strncpy(ins, "1", 1);
                 break;
             case 2:
-                //
+                strncpy(ins, "2", 1);
                 break;
-            case 3:
-                //
+            case 3://Message to someone
+                strncpy(ins, "3", sizeof(ins));
                 break;
-            case 4:
-                //
+            case 4://Message to every current connected person
+                strncpy(ins, "4", sizeof(ins));
                 break;
-            case 5:
-                //
+            case 5://message to every known person
+                strncpy(ins, "5", sizeof(ins));
                 break;
             case 6:
-                //
+                strncpy(ins, "6", 1);
                 break;
-                
             default:
+                printf("Invalid Input!!!");
+                continue;
                 break;
         }
+        
+        /* send the name to the server */
+        if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+            perror("Error on write call");
+            exit(1);
+        }
+        printf("Client sent %d bytes\n", count);
+        
+        /* wait for a message to come back from the server */
+        if ( (count = read(sd, buf, BUFSIZE)) == -1) {
+            perror("Error on read call");
+            exit(1);
+        }
+        printf("Client read %d bytes\n", count);
+        /* print the received message */
+        printf("\n\n%s\n\n", buf);
+        
+        Print_Menu();
     }
     
     /* close the socket */
