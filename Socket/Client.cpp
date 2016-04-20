@@ -128,8 +128,8 @@ int main(int argc, char *argv[])
     while (1) {
         int input=0;
         std::cin>>input;
-        char name;
-        char message;
+        string name;
+        string message;
         if (input==7) {
             close(sd);
             break;
@@ -144,12 +144,13 @@ int main(int argc, char *argv[])
                 break;
             case 3://Message to someone
                 strncpy(ins, "3", sizeof(ins));
-                cout << "Who:";
+                /*cout << "Who:";
                 cin>>name;
                 cout << "What:";
                 cin>>message;
-                strcat(ins, &name);
-                strcat(ins, &message);
+                strcat(ins, char(name));
+                strcat(ins, );
+                 */
                 break;
             case 4://Message to every current connected person
                 strncpy(ins, "4", sizeof(ins));
