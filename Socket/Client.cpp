@@ -133,6 +133,8 @@ int main(int argc, char *argv[])
         
         printf("Enter your choice: ");
         std::cin.getline(name,sizeof(name));
+        printf("\n(%s)\n", name);
+        printf("\n(%s)\n", name[0]);
         if (name[0]==7) {
             close(sd);
             break;
