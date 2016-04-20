@@ -303,9 +303,10 @@ void* handleClient(void *arg)
     printf("Server read %d bytes \n", count);//???
     
     client_name=std::string(buf);
-    
+    printf("Testing:(%s)",client_name.c_str());
     //Make a connection
     sem_wait(&Connect_id);
+    printf("Testing2:(%s)",client_name.c_str());
     //IF exist user and connected, deny access
     if(s_db.access_check(client_name)&&connection_number<(Max_Known_Users-1))
     {
@@ -344,7 +345,8 @@ void* handleClient(void *arg)
         }
         printf("Server read %d bytes\n", count);//???
         client_input=std::string(buf);
-        
+        printf("Testing3:(%s)",buf);
+        printf("Testing4:(%hhd)",client_input.at(0));
         if (client_input.at(0)==7) {
             break;
         }
