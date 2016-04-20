@@ -353,11 +353,10 @@ void* handleClient(void *arg)
             exit(1);
         }
         printf("Server read %d bytes\n", count);//???
-        /*
+        
         if (strcmp(buf, "7")==0) {
             break;
         }
-        */
         switch (buf[0]) {
             case '1':
                 printf("1. sent by %s \n",client_name.c_str());

@@ -132,11 +132,8 @@ int main(int argc, char *argv[])
     while (1) {
         
         printf("Enter your choice: ");
-        std::cin.getline(name,sizeof(name));
-
-        if (strcmp(name, "7")==0) {
-            break;
-        }
+        std::cin.getline(ins,sizeof(ins));
+        
         switch (name[0]) {
             case '1':
                 strncpy(ins, "1", 1);
@@ -164,12 +161,14 @@ int main(int argc, char *argv[])
             case '6':
                 strncpy(ins, "6", 1);
                 break;
+            case '7':
+                strncpy(ins, "7", 1);
+                break;
             default:
                 printf("Invalid Input!!!");
                 continue;
                 break;
         }
-        
         /* send the name to the server */
         if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
             perror("Error on write call");
@@ -177,6 +176,9 @@ int main(int argc, char *argv[])
         }
         printf("Client sent %d bytes\n", count);
         
+        if (strcmp(ins, "7")==0) {
+            break;
+        }
         //Read the message from server
         if ( (count = read(sd, buf, BUFSIZE)) == -1) {
             perror("Error on read call");
