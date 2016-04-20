@@ -299,11 +299,7 @@ void* handleClient(void *arg)
     else
     {
         snprintf(temp, BUFSIZE, "%s Existed! Access Denied!!!", buf);
-        if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
-            perror("write");
-            exit(1);
-        }
-        printf("Server sent %d bytes\n", count);
+        
     }
     sem_post(&Connect_id);
     //Store User Name; Mark as known; Mark as connecting
@@ -315,6 +311,11 @@ void* handleClient(void *arg)
     //need semaphore
     
     /* send a string back to client */
+    if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
+        perror("write");
+        exit(1);
+    }
+    printf("Server sent %d bytes\n", count);
 
     while (1)
     {
