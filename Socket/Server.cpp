@@ -50,7 +50,7 @@ struct str_client
     bool known;
     // Currently Connected
     bool connected;
-    //???
+    //
     int  message_amount;
     // Message history
     std::string message_history[Max_User_Msg_History];
@@ -273,6 +273,7 @@ int main(int argc, char *argv[])
     
     while (1)
     {
+        printf("While!\n");
         if ((sd_current = accept(sd, (struct sockaddr *)  &cli_i_addr, (socklen_t*)&addrlen)) == -1)
         {
             perror("Error on accept call");
@@ -287,6 +288,7 @@ int main(int argc, char *argv[])
     }
     
     /* close socket */
+    printf("OOOPS!!!\n");
     close(sd);
 }
 
@@ -380,7 +382,6 @@ void* handleClient(void *arg)
                 continue;
                 break;
         }
-        printf("I'm here4\n");
 
         //strcpy(temp,"shoudao");
         if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
