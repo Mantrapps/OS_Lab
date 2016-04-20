@@ -291,7 +291,7 @@ void* handleClient(void *arg)
     char buf[BUFSIZE];  // Used for incoming string, and outgoing data
     char temp[BUFSIZE]; //
     std::string client_name; //Used for store the client Name
-    std::string client_input;
+    
     int sd = *((int*)arg);  /* get sd from arg */
     free(arg);              /* free malloced arg */
     
@@ -303,6 +303,7 @@ void* handleClient(void *arg)
     printf("Server read %d bytes \n", count);//???
     
     client_name=std::string(buf);
+    printf("Name %s\n", client_name.c_str());
     //Make a connection
     sem_wait(&Connect_id);
     //IF exist user and connected, deny access
@@ -336,39 +337,38 @@ void* handleClient(void *arg)
     //??? if client control+c to stop the socket, then server will keep while loop
     while (strcmp(temp, "deny")!=0)
     {
-        /* read a message from the client */
+        //read a message from the client
         if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
             perror("read");
             exit(1);
         }
-        printf("Testing3:(%s)",buf);
-        printf("Server read %d bytes\n", count);//???
-        client_input=std::string(buf);
         
-        printf("Testing4:(%hhd)",client_input.at(0));
-        if (client_input.at(0)==7) {
+        
+        printf("Server read %d bytes\n", count);//???
+        printf("Testing3:(%s)",buf);
+        if (strcmp(buf, "7")==0) {
             break;
         }
-        switch (client_input.at(0)) {
-            case 1:
-                printf("1. Client %s sent %s \n",client_name.c_str(), client_input.c_str());
+        switch (buf[0]) {
+            case '1':
+                printf("1. Client %s sent \n",client_name.c_str());
                 strcpy(temp,s_db.display_all_known_users().c_str());
                 printf("I'm here3");
                 break;
-            case 2:
-                printf("2. Client sent %s \n", client_input.c_str());
+            case '2':
+                printf("2. Client sent %c \n", buf[0]);
                 break;
-            case 3://Message to someone
-                printf("3. Client sent %s \n", client_input.c_str());
+            case '3'://Message to someone
+                printf("3. Client sent %c \n", buf[0]);
                 break;
-            case 4://Message to every current connected person
-                printf("4. Client sent %s \n", client_input.c_str());
+            case '4'://Message to every current connected person
+                printf("4. Client sent %c \n", buf[0]);
                 break;
-            case 5://message to every known person
-                printf("5. Client sent %s \n", client_input.c_str());
+            case '5'://message to every known person
+                printf("5. Client sent %c \n", buf[0]);
                 break;
-            case 6:
-                printf("6. Client sent %s \n", client_input.c_str());
+            case '6':
+                printf("6. Client sent %c \n", buf[0]);
                 break;
             default:
                 continue;
@@ -376,7 +376,7 @@ void* handleClient(void *arg)
         }
         printf("I'm here4");
 
-        //strcpy(temp,"shoudao");
+        strcpy(temp,"shoudao");
         if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
             perror("write");
             exit(1);

@@ -133,15 +133,13 @@ int main(int argc, char *argv[])
         
         printf("Enter your choice: ");
         std::cin.getline(name,sizeof(name));
-        printf("\n(%hhd)\n", name[0]);
+
         if (strcmp(name, "7")==0) {
             close(sd);
             break;
         }
-       
         switch (name[0]) {
             case '1':
-                printf("\n(%s)\n", ins);
                 strncpy(ins, "1", 1);
                 printf("\n(%s)\n", ins);
                 break;
