@@ -63,7 +63,8 @@ class Server_DB{
 private:
     //str
     str_client stc_clients[Max_Known_Users];
-    //char message[BUFSIZE];
+    // how to make sure char 80
+    std::string message;
 public:
     Server_DB()
     {
@@ -97,9 +98,16 @@ public:
         }
     }
     //Menu-1 Display the names of all known users
-    void display_all_known_users()
+    std::string display_all_known_users()
     {
-        printf("wo shi 1");
+        message="Knoown users:\n";
+        for (int i=0; i<Max_Known_Users; i++) {
+            if (stc_clients[i].known) {
+                message.append(stc_clients[i].name.c_str());
+                message.append("\n");
+            }
+        }
+        return message;
     }
     //Menu-2 Display the names of all currently connected users
     void display_all_connecting_users(char user_name)
@@ -277,38 +285,36 @@ int main(int argc, char *argv[])
 // Thread Function
 void* handleClient(void *arg)
 {
-    int count=0;
-    
-    char buf[BUFSIZE];  /* used for incoming string, and outgoing data */
-    
-    char temp[BUFSIZE];
-    
+    int count=0;        // Used For Record How many bytes read and write
+    char buf[BUFSIZE];  // Used for incoming string, and outgoing data
+    char temp[BUFSIZE]; //
+    std::string client_name; //Used for store the client Name
     std::string client_input;
-    
     int sd = *((int*)arg);  /* get sd from arg */
     free(arg);              /* free malloced arg */
     
-    /* read a message from the client */
+    // read client name
     if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
         perror("read");
         exit(1);
     }
+    printf("Server read %d bytes \n", count);//???
     
-    printf("Server read %d bytes\n", count);//???
-    client_input=std::string(buf);
+    client_name=std::string(buf);
     
-    //Store Connection id  ???
-    
+    //Make a connection
     sem_wait(&Connect_id);
     //IF exist user and connected, deny access
-    if(s_db.access_check(client_input))
+    if(s_db.access_check(client_name)&&connection_number<(Max_Known_Users-1))
     {
-        s_db.connect(client_input);
+        s_db.connect(client_name);
+        strcpy(temp,"approve");
     }
     else
     {
-        snprintf(temp, BUFSIZE, "%s Existed! Access Denied!!!", buf);
-        
+        //??? If deny what next
+        strcpy(temp,"deny");
+        //snprintf(temp, BUFSIZE, "E%s Existed or Connection Full! Access Denied!!!", buf);
     }
     sem_post(&Connect_id);
     //Store User Name; Mark as known; Mark as connecting
@@ -319,14 +325,15 @@ void* handleClient(void *arg)
     
     //need semaphore
     
-    /* send a string back to client */
+    //send message back to Client (approve or deny)
     if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
         perror("write");
         exit(1);
     }
     printf("Server sent %d bytes\n", count);
-
-    while (1)
+    
+    
+    while (strcmp(temp, "deny")!=0)
     {
         /* read a message from the client */
         if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
@@ -335,36 +342,36 @@ void* handleClient(void *arg)
         }
         printf("Server read %d bytes\n", count);//???
         client_input=std::string(buf);
-        printf("Client sent %s \n", client_input.c_str());
-        /*
-        if (client_input==7) {
+        
+        if (client_input.at(0)==7) {
             break;
         }
-        switch (client_input) {
+        switch (client_input.at(0)) {
             case 1:
-                //
+                printf("1. Client %s sent %s \n",client_name.c_str(), client_input.c_str());
+                strcpy(temp,s_db.display_all_known_users().c_str());
                 break;
             case 2:
-                //
+                printf("2. Client sent %s \n", client_input.c_str());
                 break;
             case 3://Message to someone
-                //
+                printf("3. Client sent %s \n", client_input.c_str());
                 break;
             case 4://Message to every current connected person
-                //
+                printf("4. Client sent %s \n", client_input.c_str());
                 break;
             case 5://message to every known person
-                //
+                printf("5. Client sent %s \n", client_input.c_str());
                 break;
             case 6:
-                //
+                printf("6. Client sent %s \n", client_input.c_str());
                 break;
             default:
                 continue;
                 break;
         }
-         */
-        strcat(temp,"shoudao");
+
+        //strcpy(temp,"shoudao");
         if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
             perror("write");
             exit(1);

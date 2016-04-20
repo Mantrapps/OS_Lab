@@ -119,8 +119,10 @@ int main(int argc, char *argv[])
         perror("Error on read call");
         exit(1);
     }
+    //Read IF connected
     printf("Client read %d bytes\n", count);
     /* print the received message */
+    //??? Approve or Deny
     printf("\n\n%s\n\n", buf);
     
     Print_Menu();
@@ -174,14 +176,14 @@ int main(int argc, char *argv[])
         }
         printf("Client sent %d bytes\n", count);
         
-        /* wait for a message to come back from the server */
+        //Read the message from server
         if ( (count = read(sd, buf, BUFSIZE)) == -1) {
             perror("Error on read call");
             exit(1);
         }
         printf("Client read %d bytes\n", count);
         /* print the received message */
-        printf("\n\n%s\n\n", buf);
+        printf("\n%s\n", buf);
         
         Print_Menu();
     }
