@@ -100,21 +100,28 @@ public:
     //Menu-1 Display the names of all known users
     std::string display_all_known_users()
     {
-        message="Knoown users:\n";
-        printf("I'm here1\n");
+        message="Known users:\n";
+        //??? serial no
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known) {
                 message.append(stc_clients[i].name.c_str());
                 message.append("\n");
-                printf("I'm here2\n");
             }
         }
         return message;
     }
     //Menu-2 Display the names of all currently connected users
-    void display_all_connecting_users(char user_name)
+    std::string display_all_connecting_users()
     {
-        printf("wo shi 2");
+        message="Currently Connedted users:\n";
+        //??? serial no
+        for (int i=0; i<Max_Known_Users; i++) {
+            if (stc_clients[i].connected) {
+                message.append(stc_clients[i].name.c_str());
+                message.append("\n");
+            }
+        }
+        return message;
     }
     //Menu-3 Send a text message to a particular user
     void message_to ()
@@ -342,21 +349,20 @@ void* handleClient(void *arg)
             perror("read");
             exit(1);
         }
-        
-        
         printf("Server read %d bytes\n", count);//???
-        printf("Testing3:(%s)",buf);
+        /*
         if (strcmp(buf, "7")==0) {
             break;
         }
+        */
         switch (buf[0]) {
             case '1':
-                printf("1. Client %s sent \n",client_name.c_str());
+                printf("1. sent by %s \n",client_name.c_str());
                 strcpy(temp,s_db.display_all_known_users().c_str());
-                printf("I'm here3\n");
                 break;
             case '2':
-                printf("2. Client sent %c \n", buf[0]);
+                printf("2. sent by %s \n", client_name.c_str());
+                strcpy(temp,s_db.display_all_connecting_users().c_str());
                 break;
             case '3'://Message to someone
                 printf("3. Client sent %c \n", buf[0]);

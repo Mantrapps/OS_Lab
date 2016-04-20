@@ -135,7 +135,6 @@ int main(int argc, char *argv[])
         std::cin.getline(name,sizeof(name));
 
         if (strcmp(name, "7")==0) {
-            close(sd);
             break;
         }
         switch (name[0]) {
