@@ -344,10 +344,11 @@ void* handleClient(void *arg)
     printf("Server sent %d bytes\n", count);
     
     //??? if client control+c to stop the socket, then server will keep while loop
-    while (strcmp(temp, "deny")!=0)
+    //strcmp(temp, "deny")!=0
+    while (1)
     {
         //read a message from the client
-        if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
+        if ((count = read(sd, buf, sizeof(buf)) ) == -1) {
             perror("read");
             exit(1);
         }
