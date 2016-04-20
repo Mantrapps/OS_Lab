@@ -81,7 +81,7 @@ public:
         //known User
         if (get_id(name)!=-1) {
             stc_clients[get_id(name)].connected=true;
-            printf("%ld, Connection by known user %s",time(0),name.c_str());
+            printf("%ld, Connection by known user %s\n",time(0),name.c_str());
         }
         else
         {
@@ -94,7 +94,7 @@ public:
                 stc_clients[connection_number].known=true;
             }
             stc_clients[connection_number].connected=true;
-            printf("%ld, Connection by unknown user %s",time(0),name.c_str());
+            printf("%ld, Connection by unknown user %s\n",time(0),name.c_str());
         }
     }
     //Menu-1 Display the names of all known users

@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
         switch (input) {
             case 1:
                 strncpy(ins, "1", 1);
+                printf("\n(%s)\n", ins);
                 break;
             case 2:
                 strncpy(ins, "2", 1);
