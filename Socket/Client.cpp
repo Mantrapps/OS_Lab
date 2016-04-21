@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
         
-        switch (name[0]) {
+        switch (ins[0]) {
             case '1':
                 strncpy(ins, "1", 1);
                 printf("\n(%s)\n", ins);
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
                 continue;
                 break;
         }
-        /* send the name to the server */
+        // send the instruction to server
         if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
             perror("Error on write call");
             exit(1);
