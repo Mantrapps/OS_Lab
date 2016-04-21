@@ -56,10 +56,12 @@ int main(int argc, char *argv[])
     //Host name in the internet
     struct hostent *hp;
     
-    //send message and receive message
+    // receive message
     char buf[BUFSIZE];
-    // User Instruction and message
+    // Send message
     char ins[BUFSIZE];
+    //??? Temp
+    char temp[BUFSIZE];
     //???
     int count;
     
@@ -196,7 +198,7 @@ int main(int argc, char *argv[])
                 strncpy(ins, "7", 1);
                 break;
             default:
-                printf("Invalid Input!!!");
+                printf("Invalid Input!!!\n");
                 continue;
                 break;
         }
@@ -216,8 +218,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client read %d bytes\n", count);
-        printf("\n%s\n", buf);
-        
+        strcat(temp, buf);
         //???
         while (count==BUFSIZE) {
             if ( (count = read(sd, buf, BUFSIZE)) == -1) {
@@ -225,10 +226,11 @@ int main(int argc, char *argv[])
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
-            printf("\n%s\n", buf);
+            strcat(temp, buf);
         }
         /* print the received message */
-        
+        printf("\n%s\n", temp);
+
         
         Print_Menu();
     }
