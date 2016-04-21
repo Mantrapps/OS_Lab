@@ -51,12 +51,23 @@ struct str_client
     // Currently Connected
     bool connected;
     //
-    int  message_amount;
+    int message_amount;
     // Message history  ???
     std::string message_history[Max_User_Msg_History];
 };
 
 void* handleClient(void *);
+
+std::string get_time_now()
+{
+    time_t time_basis;
+    struct tm * timeinfo;
+    char now_time [80];
+    time (&time_basis);
+    timeinfo = localtime (&time_basis);
+    strftime (now_time, 80,"Now it's %D, %I:%M%p.",timeinfo);
+    return now_time;
+};
 
 class Server_DB{
     
@@ -72,7 +83,7 @@ public:
             stc_clients[i].name="";
             stc_clients[i].known=false;
             stc_clients[i].connected=false;
-            //??? message_amount
+            stc_clients[i].message_amount=0;
         }
     }
     // Connecting
@@ -81,7 +92,7 @@ public:
         //known User
         if (get_id(name)!=-1) {
             stc_clients[get_id(name)].connected=true;
-            printf("%ld, Connection by known user %s\n",time(0),name.c_str());
+            printf("%s, Connection by known user %s\n",get_time_now().c_str(),name.c_str());
         }
         else
         {
@@ -94,7 +105,7 @@ public:
                 stc_clients[connection_number].known=true;
             }
             stc_clients[connection_number].connected=true;
-            printf("%ld, Connection by unknown user %s\n",time(0),name.c_str());
+            printf("%s, Connection by unknown user %s\n",get_time_now().c_str(),name.c_str());
         }
     }
     //Menu-1 Display the names of all known users
@@ -115,40 +126,86 @@ public:
     {
         message="Currently Connedted users:\n";
         //??? serial no
+        int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected) {
+                message.append(std::to_string(serial)+":");
                 message.append(stc_clients[i].name.c_str());
                 message.append("\n");
+                serial++;
             }
         }
         return message;
     }
     //Menu-3 Send a text message to a particular user
-    void message_to (std::string from, std::string to, std::string msg)
+    std::string message_to (std::string from, std::string to, std::string msg)
     {
-        printf("From: %s\n",from.c_str());
-        printf("To: %s\n",to.c_str());
-        printf("Msg: %s\n",msg.c_str());
+        //??? check no exist user
+        int To_id=get_id(to);
+        if(To_id==-1)
+        {
+            message="Recipient Not Exist!";
+            return message;
+        }
+        else
+        {
+            
+            int index=stc_clients[To_id].message_amount+1;
+            //Check if over Max_User_Msg_History
+            if (index>Max_User_Msg_History) {
+                message="Recipient Not Exist!";
+                return message;
+            }
+            else{
+                message="Message posted to "+to;
+                std::string time_now=get_time_now();
+                //Add amount
+                stc_clients[To_id].message_amount=index;
+                msg="From "+from+", "+time_now+", "+msg;
+                //Add message
+                stc_clients[To_id].message_history[--index]=msg;
+                /* ??? Need delete
+                printf("From: %s\n",from.c_str());
+                printf("To: %s\n",to.c_str());
+                printf("Msg: %s\n",msg.c_str());
+                 */
+                return message;
+            }
+        }
     }
     //Menu-4 Send a text message to all currently connected users
-    void message_to_connecting_users()
+    std::string message_to_connecting_users(std::string from, std::string msg)
     {
-        printf("wo shi 4");
+        message="Message posted to all currently connected users";
+        return message;
     }
     //Menu-5 Send a text message to all known users
-    void message_to_known_users()
+    std::string message_to_known_users(std::string from, std::string msg)
     {
-        printf("wo shi 5");
+        message="Message posted to all known users";
+        return message;
     }
     //Menu-6 Get My Messages
-    void Get_my_messages()
+    std::string Get_my_messages(std::string name)
     {
-        printf("wo shi 6");
-    }
-    //check if server known this customer
-    bool client_known(int i)
-    {
-        return stc_clients[i].known;
+        
+        int serial=1;
+        //who
+        int id=get_id(name);
+        if (stc_clients[id].message_amount==0) {
+            message="You don't have messages.\n";
+        }
+        else{
+            message="Your messages:\n";
+            for (int i=0; i<stc_clients[id].message_amount; i++)
+            {
+                message.append(std::to_string(serial)+":");
+                message.append(stc_clients[id].message_history[i]);
+                message.append("\n");
+                serial++;
+            }
+        }
+        return  message;
     }
     //duplicate check
     bool access_check(std::string name)
@@ -290,6 +347,7 @@ int main(int argc, char *argv[])
     }
     
     /* close socket */
+    //???
     printf("OOOPS!!!\n");
     close(sd);
 }
@@ -384,7 +442,7 @@ void* handleClient(void *arg)
                     exit(1);
                 }
                 printf("Inside function-3-Message, Server read %d bytes\n", count);
-                s_db.message_to(client_name, Recipient, Message);
+                strcpy(buf,s_db.message_to(client_name, Recipient, Message).c_str());
                 printf("%ld, %s post a message for %s.\n",time(0),client_name.c_str(),Recipient);
                 break;
             case '4'://Message to every current connected person
@@ -394,6 +452,7 @@ void* handleClient(void *arg)
                 printf("5. Client sent %c \n", Ins[0]);
                 break;
             case '6':
+                strcpy(buf,s_db.Get_my_messages(client_name).c_str());
                 printf("6. Client sent %c \n", Ins[0]);
                 break;
             default:
