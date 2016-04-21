@@ -216,6 +216,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client read %d bytes\n", count);
+        printf("\n%s\n", buf);
         
         //???
         while (count==BUFSIZE) {
@@ -224,9 +225,10 @@ int main(int argc, char *argv[])
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
+            printf("\n%s\n", buf);
         }
         /* print the received message */
-        printf("\n%s\n", buf);
+        
         
         Print_Menu();
     }
