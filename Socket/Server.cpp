@@ -437,8 +437,7 @@ void* handleClient(void *arg)
     {
         char Recipient[BUFSIZE];  //store recipient
         char Message[BUFSIZE];    //store message
-        memset(&Recipient, 0, sizeof(Recipient));
-        memset(&Message, 0, sizeof(Message));
+        
         //read ins from the client
         if ((count = read(sd, Ins, sizeof(Ins)) ) == -1) {
             perror("read");
@@ -485,6 +484,7 @@ void* handleClient(void *arg)
                 printf("%s, %s post a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
                 break;
             case '4'://Message to every current connected person ???
+                memset(&Message, 0, sizeof(Message));
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
