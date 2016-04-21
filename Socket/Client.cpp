@@ -139,6 +139,7 @@ int main(int argc, char *argv[])
         std::cin.getline(ins,sizeof(ins));
         //??? Temp
         char temp[BUFSIZE];
+        memset(&temp, 0, sizeof(temp));
         switch (ins[0]) {
             case '1':
                 strncpy(ins, "1", 1);
