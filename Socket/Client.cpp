@@ -217,7 +217,7 @@ int main(int argc, char *argv[])
         }
         memset(buf, 0, sizeof(buf));//???
         //Read the message from server
-        if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
+        if ( (count = read(sd, buf, BUFSIZE)) == -1) {
             perror("Error on read call");
             exit(1);
         }
@@ -227,15 +227,15 @@ int main(int argc, char *argv[])
         printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
-        while (count==BUFSIZE) {
+        while (count==(BUFSIZE)) {
             memset(buf, 0, sizeof(buf));//???
-            if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
+            if ( (count = read(sd, buf, BUFSIZE)) == -1) {
                 perror("Error on read call");
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
             printf("Client read (%s)\n", buf);
-            buf[BUFSIZE-1]='\0';
+            buf[BUFSIZE]='\0';
             strcat(temp, buf);
         }
         /* print the received message */
