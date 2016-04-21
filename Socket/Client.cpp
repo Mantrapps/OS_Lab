@@ -129,9 +129,8 @@ int main(int argc, char *argv[])
     /* print the received message */
     //??? Approve or Deny
     printf("\n\n%s\n\n", buf);
-    printf("\n\n%s\n\n", buf);
 
-    //if deny
+    //if deny ???
     if (strcmp(buf, "deny")==0) {
         printf("I'm here  %s\n\n", buf);
         close(sd);
@@ -140,13 +139,14 @@ int main(int argc, char *argv[])
     Print_Menu();
 
     while (1) {
+        
+        //c_output for output
+        char c_output[BUFSIZE];
+        memset(c_output, 0, sizeof(c_output));
         memset(ins, 0, sizeof(ins));//???
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
-        //c_output for output
-        char c_output[BUFSIZE];
-        memset(c_output, 0, sizeof(c_output));
         
         
         switch (ins[0]) {

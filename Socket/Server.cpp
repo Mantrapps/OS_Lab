@@ -160,7 +160,7 @@ public:
             stc_clients[connection_number].message_amount++;
             msg="From "+from+", "+time_now+", "+msg;
             //Add message
-            stc_clients[To_id].message_history[0]=msg;
+            stc_clients[connection_number].message_history[0]=msg;
             //message="Recipient Not Exist!";
             connection_number++;
             return message;
