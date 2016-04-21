@@ -180,18 +180,17 @@ public:
         
         std::string message;
         message="Message posted to all currently connected users";
+        std::string time_now=get_time_now();
+        msg="From "+from+", "+time_now+", "+msg;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected)
             {
                 int index=stc_clients[i].message_amount+1;
                 if (index<Max_User_Msg_History)
                 {
-                    std::string time_now=get_time_now();
                     //Add amount
                     stc_clients[i].message_amount=index;
-                    msg="From "+from+", "+time_now+", "+msg;
                     //Add message
-                    printf("Inside Menu-4 the Message is: %s\n",msg.c_str());
                     stc_clients[i].message_history[--index]=msg;
                 }
             }
@@ -203,15 +202,15 @@ public:
     {
         std::string message;
         message="Message posted to all known users";
+        std::string time_now=get_time_now();
+        msg="From "+from+", "+time_now+", "+msg;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known)
             {
                 int index=stc_clients[i].message_amount+1;
                 if (index<Max_User_Msg_History) {
-                    std::string time_now=get_time_now();
                     //Add amount
                     stc_clients[i].message_amount=index;
-                    msg="From "+from+", "+time_now+", "+msg;
                     //Add message
                     stc_clients[i].message_history[--index]=msg;
                 }
@@ -222,12 +221,10 @@ public:
     //Menu-6 Get My Messages
     std::string Get_my_messages(std::string name)
     {
-        printf("Client_Name: %s\n",name.c_str());
         std::string message;
         int serial=1;
         //who
         int id=get_id(name);
-        printf("Client_ID: %d\n",id);
         if (stc_clients[id].message_amount==0) {
             message="You don't have messages.\n";
         }
@@ -235,7 +232,6 @@ public:
             message="Your messages:\n";
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
-                printf("Client_Name: %s, Message_amount: %d\n",name.c_str(),stc_clients[id].message_amount);
                 message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
