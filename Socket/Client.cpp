@@ -133,13 +133,13 @@ int main(int argc, char *argv[])
     Print_Menu();
 
     while (1) {
-        memset(&ins, 0, sizeof(ins));//???
+        memset(ins, 0, sizeof(ins));//???
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
         //??? Temp
         char temp[BUFSIZE];
-        memset(&temp, 0, sizeof(temp));
+        memset(temp, 0, sizeof(temp));
         
         
         switch (ins[0]) {
@@ -215,25 +215,27 @@ int main(int argc, char *argv[])
         if (strcmp(ins, "7")==0) {
             break;
         }
-        memset(&buf, 0, sizeof(buf));//???
+        memset(buf, 0, sizeof(buf));//???
         //Read the message from server
-        if ( (count = read(sd, buf, BUFSIZE)) == -1) {
+        if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
             perror("Error on read call");
             exit(1);
         }
         printf("Client read %d bytes\n", count);
+        buf[BUFSIZE-1]='\0';
         strcat(temp, buf);
         printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
         while (count==BUFSIZE) {
-            memset(&buf, 0, sizeof(buf));//???
-            if ( (count = read(sd, buf, BUFSIZE)) == -1) {
+            memset(buf, 0, sizeof(buf));//???
+            if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
                 perror("Error on read call");
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
             printf("Client read (%s)\n", buf);
+            buf[BUFSIZE-1]='\0';
             strcat(temp, buf);
         }
         /* print the received message */
