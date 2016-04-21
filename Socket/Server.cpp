@@ -174,6 +174,7 @@ public:
     //Menu-4 Send a text message to all currently connected users ??? (Ignore all full message users)
     std::string message_to_connecting_users(std::string from, std::string msg)
     {
+        std::string message;
         message="Message posted to all currently connected users";
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected)
@@ -194,6 +195,7 @@ public:
     //Menu-5 Send a text message to all known users ???(Ignore all full message users)
     std::string message_to_known_users(std::string from, std::string msg)
     {
+        std::string message;
         message="Message posted to all known users";
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known)
