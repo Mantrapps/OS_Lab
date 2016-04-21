@@ -153,21 +153,41 @@ int main(int argc, char *argv[])
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
+                
                 printf("Enter Recipient's name:");
-                std::cin.getline(ins,sizeof(ins));
+                std::cin.getline(ins,sizeof(ins)); // get recipient
+    
                 if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
                     perror("Error on write call");
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
+                
                 printf("Enter a message:");
-                std::cin.getline(ins,sizeof(ins));
+                std::cin.getline(ins,sizeof(ins)); // get message
+
                 break;
             case '4'://Message to every current connected person
                 strncpy(ins, "4", sizeof(ins));
+                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                    perror("Error on write call");
+                    exit(1);
+                }
+                printf("Client sent %d bytes\n", count);
+                
+                printf("Enter a message:");
+                std::cin.getline(ins,sizeof(ins)); // get message
                 break;
             case '5'://message to every known person
                 strncpy(ins, "5", sizeof(ins));
+                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                    perror("Error on write call");
+                    exit(1);
+                }
+                printf("Client sent %d bytes\n", count);
+                
+                printf("Enter a message:");
+                std::cin.getline(ins,sizeof(ins)); // get message
                 break;
             case '6':
                 strncpy(ins, "6", 1);

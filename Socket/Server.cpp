@@ -29,10 +29,10 @@
 #define Max_User_Msg_History 10 //Maximum of 10 messages each users
 
 
-//semaphore Connect_id, 0
+//semaphore Connect_id, 1
 static sem_t Connect_id;
-//semaphore Visit_Server_DB, 0
-static sem_t Visit_Server_DB;
+//semaphore Visit_Server_Data, 1
+static sem_t Visit_Server_Data;
 // connection amount
 int connection_number=0;
 
@@ -65,7 +65,7 @@ std::string get_time_now()
     char now_time [80];
     time (&time_basis);
     timeinfo = localtime (&time_basis);
-    strftime (now_time, 80,"Now it's %D, %I:%M%p.",timeinfo);
+    strftime (now_time, 80,"%D %I:%M %p",timeinfo);
     return now_time;
 };
 
@@ -153,7 +153,7 @@ public:
             int index=stc_clients[To_id].message_amount+1;
             //Check if over Max_User_Msg_History
             if (index>Max_User_Msg_History) {
-                message="Recipient Not Exist!";
+                message="Recipient Can not accept Message!";
                 return message;
             }
             else{
@@ -164,25 +164,48 @@ public:
                 msg="From "+from+", "+time_now+", "+msg;
                 //Add message
                 stc_clients[To_id].message_history[--index]=msg;
-                /* ??? Need delete
-                printf("From: %s\n",from.c_str());
-                printf("To: %s\n",to.c_str());
-                printf("Msg: %s\n",msg.c_str());
-                 */
                 return message;
             }
         }
     }
-    //Menu-4 Send a text message to all currently connected users
+    //Menu-4 Send a text message to all currently connected users ??? (Ignore all full message users)
     std::string message_to_connecting_users(std::string from, std::string msg)
     {
         message="Message posted to all currently connected users";
+        for (int i=0; i<Max_Known_Users; i++) {
+            if (stc_clients[i].connected)
+            {
+                int index=stc_clients[i].message_amount+1;
+                if (index<Max_User_Msg_History) {
+                    std::string time_now=get_time_now();
+                    //Add amount
+                    stc_clients[i].message_amount=index;
+                    msg="From "+from+", "+time_now+", "+msg;
+                    //Add message
+                    stc_clients[i].message_history[--index]=msg;
+                }
+            }
+        }
         return message;
     }
-    //Menu-5 Send a text message to all known users
+    //Menu-5 Send a text message to all known users ???(Ignore all full message users)
     std::string message_to_known_users(std::string from, std::string msg)
     {
         message="Message posted to all known users";
+        for (int i=0; i<Max_Known_Users; i++) {
+            if (stc_clients[i].known)
+            {
+                int index=stc_clients[i].message_amount+1;
+                if (index<Max_User_Msg_History) {
+                    std::string time_now=get_time_now();
+                    //Add amount
+                    stc_clients[i].message_amount=index;
+                    msg="From "+from+", "+time_now+", "+msg;
+                    //Add message
+                    stc_clients[i].message_history[--index]=msg;
+                }
+            }
+        }
         return message;
     }
     //Menu-6 Get My Messages
@@ -275,9 +298,9 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     //Initialize semaphore assign Connect_id
-    if(sem_init(&Visit_Server_DB, 0, 1)==-1)
+    if(sem_init(&Visit_Server_Data, 0, 1)==-1)
     {
-        perror("sem_init Visit_Server_DB");
+        perror("sem_init Visit_Server_Data");
         exit(EXIT_FAILURE);
     }
     
@@ -359,8 +382,8 @@ void* handleClient(void *arg)
     int count=0;        // Used For Record How many bytes read and write
     char buf[BUFSIZE];  //Used for outgoing data
     char Ins[BUFSIZE]; // Used for incoming data
-    char Recipient[BUFSIZE];
-    char Message[BUFSIZE];
+    char Recipient[BUFSIZE];  //store recipient
+    char Message[BUFSIZE];    //store message
     std::string client_name; //Used for store the client Name
     
     int sd = *((int*)arg);  /* get sd from arg */
@@ -376,7 +399,7 @@ void* handleClient(void *arg)
     client_name=std::string(Ins);
     printf("Name %s\n", client_name.c_str());
     //Make a connection
-    sem_wait(&Connect_id);
+    sem_wait(&Visit_Server_Data);
     //IF exist user and connected, deny access
     if(s_db.access_check(client_name)&&connection_number<(Max_Known_Users-1))
     {
@@ -389,7 +412,8 @@ void* handleClient(void *arg)
         strcpy(buf,"deny");
         //snprintf(temp, BUFSIZE, "E%s Existed or Connection Full! Access Denied!!!", buf);
     }
-    sem_post(&Connect_id);
+    sleep(10000);//???
+    sem_post(&Visit_Server_Data);
     //Store User Name; Mark as known; Mark as connecting
     
     //strcat(connected_user,buf);
@@ -417,17 +441,24 @@ void* handleClient(void *arg)
         printf("Server read %d bytes\n", count);//???
         //Known Client wnat to out
         if (strcmp(Ins, "7")==0) {
+            sem_wait(&Visit_Server_Data);
             s_db.disconnect(client_name);
+            printf("%s, %s exits.\n",get_time_now().c_str(),client_name.c_str());
+            sem_post(&Visit_Server_Data);
             break;
         }
         switch (Ins[0]) {
             case '1':
+                sem_wait(&Visit_Server_Data);
                 strcpy(buf,s_db.display_all_known_users().c_str());
-                printf("%ld, %s displays all known usrs.\n",time(0),client_name.c_str());
+                printf("%s, %s displays all known usrs.\n",get_time_now().c_str(),client_name.c_str());
+                sem_post(&Visit_Server_Data);
                 break;
             case '2':
+                sem_wait(&Visit_Server_Data);
                 strcpy(buf,s_db.display_all_connecting_users().c_str());
-                printf("%ld, %s displays all connected usrs.\n",time(0),client_name.c_str());
+                printf("%s, %s displays all connected usrs.\n",get_time_now().c_str(),client_name.c_str());
+                sem_post(&Visit_Server_Data);
                 break;
             case '3'://Message to someone
                 //read recipient's name
@@ -435,25 +466,48 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-3-Recipient, Server read %d bytes\n", count);
+                printf("Inside function-3-Recipient, Server read %d bytes\n", count);//???
                 //read message
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-3-Message, Server read %d bytes\n", count);
+                printf("Inside function-3-Message, Server read %d bytes\n", count);//???
+                sem_wait(&Visit_Server_Data);
                 strcpy(buf,s_db.message_to(client_name, Recipient, Message).c_str());
-                printf("%ld, %s post a message for %s.\n",time(0),client_name.c_str(),Recipient);
+                sem_post(&Visit_Server_Data);
+                printf("%s, %s post a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
                 break;
-            case '4'://Message to every current connected person
-                printf("4. Client sent %c \n", Ins[0]);
+            case '4'://Message to every current connected person ???
+                if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
+                    perror("read");
+                    exit(1);
+                }
+                printf("Inside function-4-Message, Server read %d bytes\n", count);//???
+                sem_wait(&Visit_Server_Data);
+                strcpy(buf,s_db.message_to_connecting_users(client_name, Message).c_str());
+                sem_post(&Visit_Server_Data);
+                
+                printf("%s, %s post a message for all connected users.\n",get_time_now().c_str(),client_name.c_str());
                 break;
-            case '5'://message to every known person
-                printf("5. Client sent %c \n", Ins[0]);
+            case '5'://message to every known person ???
+                if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
+                    perror("read");
+                    exit(1);
+                }
+                printf("Inside function-5-Message, Server read %d bytes\n", count);//???
+                sem_wait(&Visit_Server_Data);
+                strcpy(buf,s_db.message_to_known_users(client_name, Message).c_str());
+                sem_post(&Visit_Server_Data);
+                
+                printf("%s, %s post a message for all known users.\n",get_time_now().c_str(),client_name.c_str());
                 break;
             case '6':
+                sem_wait(&Visit_Server_Data);
+                //?? if get my message too long
                 strcpy(buf,s_db.Get_my_messages(client_name).c_str());
-                printf("6. Client sent %c \n", Ins[0]);
+                sem_post(&Visit_Server_Data);
+                printf("%s, %s gets messages.\n",get_time_now().c_str(),client_name.c_str());
                 break;
             default:
                 continue;
