@@ -92,7 +92,7 @@ public:
         //known User
         if (get_id(name)!=-1) {
             stc_clients[get_id(name)].connected=true;
-            printf("%s, Connection by known user %s\n",get_time_now().c_str(),name.c_str());
+            printf("%s, Connection by known user(%d) %s\n",get_time_now().c_str(),get_id(name),name.c_str());
         }
         else
         {
@@ -104,7 +104,7 @@ public:
                 stc_clients[connection_number].known=true;
             }
             stc_clients[connection_number].connected=true;
-            printf("%s, Connection by unknown user %s\n",get_time_now().c_str(),name.c_str());
+            printf("%s, Connection by unknown user(%d) %s\n",get_time_now().c_str(),connection_number,name.c_str());
             connection_number++;
         }
     }
@@ -239,6 +239,7 @@ public:
         int serial=1;
         //who
         int id=get_id(name);
+        printf("ID: (%d)\n",id);
         if (stc_clients[id].message_amount==0) {
             message="You don't have messages.\n";
         }
@@ -458,6 +459,7 @@ void* handleClient(void *arg)
     // if deny
     while (strcmp(buf, "deny")!=0)
     {
+        printf("While\n");
         char Recipient[BUFSIZE];  //store recipient
         char Message[BUFSIZE];    //store message
         memset(Recipient, 0, sizeof(Recipient));
