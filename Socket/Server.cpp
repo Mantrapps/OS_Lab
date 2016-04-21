@@ -556,7 +556,9 @@ void* handleClient(void *arg)
     }
     
     /* close socket */
-    printf("%s Close\n",client_name.c_str());
+    while (strcmp(buf, "deny")!=0) {
+        printf("%s Close\n",client_name.c_str());
+    }
     close(sd);
 }
 
