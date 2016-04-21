@@ -177,6 +177,7 @@ public:
     //Menu-4 Send a text message to all currently connected users ??? (Ignore all full message users)
     std::string message_to_connecting_users(std::string from, std::string msg)
     {
+        printf("Inside Menu-4 the Message is: %s\n",msg.c_str());
         std::string message;
         message="Message posted to all currently connected users";
         for (int i=0; i<Max_Known_Users; i++) {
@@ -437,7 +438,8 @@ void* handleClient(void *arg)
     {
         char Recipient[BUFSIZE];  //store recipient
         char Message[BUFSIZE];    //store message
-        
+        memset(&Recipient, 0, sizeof(Recipient));
+        memset(&Message, 0, sizeof(Recipient));
         //read ins from the client
         if ((count = read(sd, Ins, sizeof(Ins)) ) == -1) {
             perror("read");
@@ -484,7 +486,7 @@ void* handleClient(void *arg)
                 printf("%s, %s post a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
                 break;
             case '4'://Message to every current connected person ???
-                memset(&Message, 0, sizeof(Message));
+                
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
