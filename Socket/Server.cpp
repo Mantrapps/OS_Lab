@@ -75,7 +75,7 @@ private:
     //str
     str_client stc_clients[Max_Known_Users];
     // how to make sure char 80
-    std::string message;
+    
 public:
     Server_DB()
     {
@@ -111,6 +111,7 @@ public:
     //Menu-1 Display the names of all known users
     std::string display_all_known_users()
     {
+        std::string message;
         message="Known users:\n";
         //??? serial no
         for (int i=0; i<Max_Known_Users; i++) {
@@ -124,7 +125,8 @@ public:
     //Menu-2 Display the names of all currently connected users
     std::string display_all_connecting_users()
     {
-        message="Currently Connedted users:\n";
+        std::string message;
+        message="Currently Connected users:\n";
         //??? serial no
         int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
@@ -140,6 +142,7 @@ public:
     //Menu-3 Send a text message to a particular user
     std::string message_to (std::string from, std::string to, std::string msg)
     {
+        std::string message;
         //??? check no exist user
         int To_id=get_id(to);
         if(To_id==-1)
@@ -211,7 +214,7 @@ public:
     //Menu-6 Get My Messages
     std::string Get_my_messages(std::string name)
     {
-        
+        std::string message;
         int serial=1;
         //who
         int id=get_id(name);
@@ -410,7 +413,6 @@ void* handleClient(void *arg)
         //??? If deny what next
         strcpy(buf,"deny");
     }
-    sleep(10);//???
     sem_post(&Visit_Server_Data);
     
     //send message back to Client (approve or deny)

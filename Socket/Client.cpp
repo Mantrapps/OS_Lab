@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
             strcat(temp, buf);
         }
         /* print the received message */
-        printf("\n%s\n", temp);
+        printf("\n%s\n\n", temp);
 
         
         Print_Menu();
