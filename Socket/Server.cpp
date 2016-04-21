@@ -426,6 +426,7 @@ void* handleClient(void *arg)
     printf("Server read %d bytes \n", count);//
     //If Client exit at enter name;
     if (count==0) {
+        printf("I'm here read %d bytes \n", count);//
         close(sd);
     }
     
