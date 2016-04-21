@@ -220,6 +220,7 @@ int main(int argc, char *argv[])
         }
         printf("Client read %d bytes\n", count);
         strcat(temp, buf);
+        printf("guochengzhong:(%s)\n",temp);
         //???
         //if last time =80?
         while (count==BUFSIZE) {
