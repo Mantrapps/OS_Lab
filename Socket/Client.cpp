@@ -47,20 +47,22 @@ int main(int argc, char *argv[])
     char hostname[100];
     // Store Port Number
     int port;
-    //
-    char buf[BUFSIZE];
     // User Name
     char name[100];
-    // User Instruction and message
-    char ins[BUFSIZE];
     // socket
     int sd;
-    //
-    int count;
     //server address
     struct sockaddr_in serv_i_addr;
     //Host name in the internet
     struct hostent *hp;
+    
+    //send message and receive message
+    char buf[BUFSIZE];
+    // User Instruction and message
+    char ins[BUFSIZE];
+    //???
+    int count;
+    
     /* check for command line arguments */
     if (argc != 3)
     {
@@ -131,6 +133,7 @@ int main(int argc, char *argv[])
 
     while (1) {
         
+        //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
         
@@ -143,14 +146,22 @@ int main(int argc, char *argv[])
                 strncpy(ins, "2", 1);
                 break;
             case '3'://Message to someone
+                
                 strncpy(ins, "3", sizeof(ins));
-                /*cout << "Who:";
-                cin>>name;
-                cout << "What:";
-                cin>>message;
-                strcat(ins, char(name));
-                strcat(ins, );
-                 */
+                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                    perror("Error on write call");
+                    exit(1);
+                }
+                printf("Client sent %d bytes\n", count);
+                printf("Enter Recipient's name:");
+                std::cin.getline(ins,sizeof(ins));
+                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                    perror("Error on write call");
+                    exit(1);
+                }
+                printf("Client sent %d bytes\n", count);
+                printf("Enter a message:");
+                std::cin.getline(ins,sizeof(ins));
                 break;
             case '4'://Message to every current connected person
                 strncpy(ins, "4", sizeof(ins));

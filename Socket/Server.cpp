@@ -52,7 +52,7 @@ struct str_client
     bool connected;
     //
     int  message_amount;
-    // Message history
+    // Message history  ???
     std::string message_history[Max_User_Msg_History];
 };
 
@@ -124,9 +124,11 @@ public:
         return message;
     }
     //Menu-3 Send a text message to a particular user
-    void message_to ()
+    void message_to (std::string from, std::string to, std::string msg)
     {
-        printf("wo shi 3");
+        printf("From: %s\n",from.c_str());
+        printf("To: %s\n",to.c_str());
+        printf("Msg: %s\n",msg.c_str());
     }
     //Menu-4 Send a text message to all currently connected users
     void message_to_connecting_users()
@@ -166,9 +168,9 @@ public:
     }
     //disconnect
 
-    void disconnect(int i)
+    void disconnect(std::string name)
     {
-        stc_clients[i].connected=false;
+        stc_clients[get_id(name)].connected=false;
     }
     
     //get id by name
@@ -297,21 +299,23 @@ int main(int argc, char *argv[])
 void* handleClient(void *arg)
 {
     int count=0;        // Used For Record How many bytes read and write
-    char buf[BUFSIZE];  // Used for incoming string, and outgoing data
-    char temp[BUFSIZE]; //
+    char buf[BUFSIZE];  //Used for outgoing data
+    char Ins[BUFSIZE]; // Used for incoming data
+    char Recipient[BUFSIZE];
+    char Message[BUFSIZE];
     std::string client_name; //Used for store the client Name
     
     int sd = *((int*)arg);  /* get sd from arg */
     free(arg);              /* free malloced arg */
     
     // read client name
-    if ( (count = read(sd, buf, sizeof(buf)) ) == -1) {
+    if ( (count = read(sd, Ins, sizeof(Ins)) ) == -1) {
         perror("read");
         exit(1);
     }
     printf("Server read %d bytes \n", count);//???
     
-    client_name=std::string(buf);
+    client_name=std::string(Ins);
     printf("Name %s\n", client_name.c_str());
     //Make a connection
     sem_wait(&Connect_id);
@@ -319,12 +323,12 @@ void* handleClient(void *arg)
     if(s_db.access_check(client_name)&&connection_number<(Max_Known_Users-1))
     {
         s_db.connect(client_name);
-        strcpy(temp,"approve");
+        strcpy(buf,"approve");
     }
     else
     {
         //??? If deny what next
-        strcpy(temp,"deny");
+        strcpy(buf,"deny");
         //snprintf(temp, BUFSIZE, "E%s Existed or Connection Full! Access Denied!!!", buf);
     }
     sem_post(&Connect_id);
@@ -337,7 +341,7 @@ void* handleClient(void *arg)
     //need semaphore
     
     //send message back to Client (approve or deny)
-    if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
+    if ( (count = write(sd, buf, strlen(buf)+1) ) == -1) {
         perror("write");
         exit(1);
     }
@@ -347,44 +351,58 @@ void* handleClient(void *arg)
     //strcmp(temp, "deny")!=0
     while (1)
     {
-        //read a message from the client
-        if ((count = read(sd, buf, sizeof(buf)) ) == -1) {
+        //read ins from the client
+        if ((count = read(sd, Ins, sizeof(Ins)) ) == -1) {
             perror("read");
             exit(1);
         }
         printf("Server read %d bytes\n", count);//???
-        
-        if (strcmp(buf, "7")==0) {
+        //Known Client wnat to out
+        if (strcmp(Ins, "7")==0) {
+            s_db.disconnect(client_name);
             break;
         }
-        switch (buf[0]) {
+        switch (Ins[0]) {
             case '1':
-                printf("1. sent by %s \n",client_name.c_str());
-                strcpy(temp,s_db.display_all_known_users().c_str());
+                strcpy(buf,s_db.display_all_known_users().c_str());
+                printf("%ld, %s displays all known usrs.\n",time(0),client_name.c_str());
                 break;
             case '2':
-                printf("2. sent by %s \n", client_name.c_str());
-                strcpy(temp,s_db.display_all_connecting_users().c_str());
+                strcpy(buf,s_db.display_all_connecting_users().c_str());
+                printf("%ld, %s displays all connected usrs.\n",time(0),client_name.c_str());
                 break;
             case '3'://Message to someone
-                printf("3. Client sent %c \n", buf[0]);
+                //read recipient's name
+                if ((count = read(sd, Recipient, sizeof(Recipient)) ) == -1) {
+                    perror("read");
+                    exit(1);
+                }
+                printf("Inside function-3-Recipient, Server read %d bytes\n", count);
+                //read message
+                if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
+                    perror("read");
+                    exit(1);
+                }
+                printf("Inside function-3-Message, Server read %d bytes\n", count);
+                s_db.message_to(client_name, Recipient, Message);
+                printf("%ld, %s post a message for %s.\n",time(0),client_name.c_str(),Recipient);
                 break;
             case '4'://Message to every current connected person
-                printf("4. Client sent %c \n", buf[0]);
+                printf("4. Client sent %c \n", Ins[0]);
                 break;
             case '5'://message to every known person
-                printf("5. Client sent %c \n", buf[0]);
+                printf("5. Client sent %c \n", Ins[0]);
                 break;
             case '6':
-                printf("6. Client sent %c \n", buf[0]);
+                printf("6. Client sent %c \n", Ins[0]);
                 break;
             default:
                 continue;
                 break;
         }
 
-        //strcpy(temp,"shoudao");
-        if ( (count = write(sd, temp, strlen(temp)+1) ) == -1) {
+        //send BUF to clients
+        if ( (count = write(sd, buf, strlen(buf)+1) ) == -1) {
             perror("write");
             exit(1);
         }
@@ -392,6 +410,7 @@ void* handleClient(void *arg)
     }
     
     /* close socket */
+    printf("%s Close\n",client_name.c_str());
     close(sd);
 }
 
