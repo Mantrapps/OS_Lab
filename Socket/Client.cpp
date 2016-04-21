@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client read %d bytes\n", count);
-        buf[BUFSIZE-1]='\0';
+        //buf[BUFSIZE-1]='\0';
         strcat(temp, buf);
         printf("Client read (%s)\n", buf);
         //???
@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
             }
             printf("Client read %d bytes\n", count);
             printf("Client read (%s)\n", buf);
-            buf[BUFSIZE]='\0';
+            //buf[BUFSIZE-1]='\0';
             strcat(temp, buf);
         }
         /* print the received message */
