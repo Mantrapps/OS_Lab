@@ -394,8 +394,7 @@ void* handleClient(void *arg)
     int count=0;        // Used For Record How many bytes read and write
     char buf[BUFSIZE];  //Used for outgoing data
     char Ins[BUFSIZE]; // Used for incoming data
-    char Recipient[BUFSIZE];  //store recipient
-    char Message[BUFSIZE];    //store message
+    
     std::string client_name; //Used for store the client Name
     
     int sd = *((int*)arg);  /* get sd from arg */
@@ -436,6 +435,10 @@ void* handleClient(void *arg)
     //strcmp(temp, "deny")!=0
     while (1)
     {
+        char Recipient[BUFSIZE];  //store recipient
+        char Message[BUFSIZE];    //store message
+        memset(&Recipient, 0, sizeof(Recipient));
+        memset(&Message, 0, sizeof(Message));
         //read ins from the client
         if ((count = read(sd, Ins, sizeof(Ins)) ) == -1) {
             perror("read");
