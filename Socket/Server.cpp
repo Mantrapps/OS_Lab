@@ -182,7 +182,7 @@ public:
         message="Message posted to all currently connected users";
         std::string time_now=get_time_now();
         msg="From "+from+", "+time_now+", "+msg;
-        printf("MSG:(%s)",msg.c_str());
+        //printf("MSG:(%s)\n",msg.c_str());
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected)
             {
@@ -234,12 +234,14 @@ public:
             message="Your messages:\n";
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
+                printf("MSG in Menu6:(%s)\n",stc_clients[id].message_history[i].c_str());
                 message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
                 serial++;
             }
         }
+        
         return  message;
     }
     //duplicate check
@@ -511,6 +513,7 @@ void* handleClient(void *arg)
             case '6':
                 sem_wait(&Visit_Server_Data);
                 //?? if get my message too long
+                printf("MSG:(%s)\n",s_db.Get_my_messages(client_name).c_str());
                 strcpy(buf,s_db.Get_my_messages(client_name).c_str());
                 sem_post(&Visit_Server_Data);
                 printf("%s, %s gets messages.\n",get_time_now().c_str(),client_name.c_str());
