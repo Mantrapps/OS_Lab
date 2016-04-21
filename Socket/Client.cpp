@@ -223,7 +223,7 @@ int main(int argc, char *argv[])
         }
         printf("Client read %d bytes\n", count);
         strcat(temp, buf);
-        
+        printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
         while (count==BUFSIZE) {
@@ -233,6 +233,7 @@ int main(int argc, char *argv[])
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
+            printf("Client read (%s)\n", buf);
             strcat(temp, buf);
         }
         /* print the received message */
