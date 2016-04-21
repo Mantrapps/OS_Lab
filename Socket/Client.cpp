@@ -60,8 +60,7 @@ int main(int argc, char *argv[])
     char buf[BUFSIZE];
     // Send message
     char ins[BUFSIZE];
-    //??? Temp
-    char temp[BUFSIZE];
+    
     //???
     int count;
     
@@ -138,7 +137,8 @@ int main(int argc, char *argv[])
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
-        
+        //??? Temp
+        char temp[BUFSIZE];
         switch (ins[0]) {
             case '1':
                 strncpy(ins, "1", 1);
