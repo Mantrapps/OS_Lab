@@ -182,6 +182,7 @@ public:
         message="Message posted to all currently connected users";
         std::string time_now=get_time_now();
         msg="From "+from+", "+time_now+", "+msg;
+        printf("MSG:(%s)",msg.c_str());
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected)
             {
@@ -204,6 +205,7 @@ public:
         message="Message posted to all known users";
         std::string time_now=get_time_now();
         msg="From "+from+", "+time_now+", "+msg;
+       
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known)
             {

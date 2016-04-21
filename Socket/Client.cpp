@@ -221,6 +221,7 @@ int main(int argc, char *argv[])
         printf("Client read %d bytes\n", count);
         strcat(temp, buf);
         //???
+        //if last time =80?
         while (count==BUFSIZE) {
             if ( (count = read(sd, buf, BUFSIZE)) == -1) {
                 perror("Error on read call");
