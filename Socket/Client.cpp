@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
         }
         printf("Client read %d bytes\n", count);
         strcat(temp, buf);
-        printf("guochengzhong:(%s)\n",temp);
+        printf("guochengzhong1:(%s)\n",temp);
         //???
         //if last time =80?
         while (count==BUFSIZE) {
@@ -229,6 +229,7 @@ int main(int argc, char *argv[])
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
+            printf("guochengzhong2:(%s)\n",buf);
             strcat(temp, buf);
         }
         /* print the received message */
