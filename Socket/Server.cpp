@@ -177,7 +177,7 @@ public:
     //Menu-4 Send a text message to all currently connected users ??? (Ignore all full message users)
     std::string message_to_connecting_users(std::string from, std::string msg)
     {
-        printf("Inside Menu-4 the Message is: %s\n",msg.c_str());
+        
         std::string message;
         message="Message posted to all currently connected users";
         for (int i=0; i<Max_Known_Users; i++) {
@@ -191,6 +191,7 @@ public:
                     stc_clients[i].message_amount=index;
                     msg="From "+from+", "+time_now+", "+msg;
                     //Add message
+                    printf("Inside Menu-4 the Message is: %s\n",msg.c_str());
                     stc_clients[i].message_history[--index]=msg;
                 }
             }
@@ -235,7 +236,6 @@ public:
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
                 printf("Client_Name: %s, Message_amount: %d\n",name.c_str(),stc_clients[id].message_amount);
-                printf("Message: %s @\n",stc_clients[id].message_history[i].c_str());
                 message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
