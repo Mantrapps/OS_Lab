@@ -137,9 +137,9 @@ int main(int argc, char *argv[])
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
-        //??? Temp
-        char temp[BUFSIZE];
-        memset(&temp, 0, sizeof(temp));
+        //c_output for output
+        char c_output[BUFSIZE];
+        memset(c_output, 0, sizeof(c_output));
         
         
         switch (ins[0]) {
@@ -205,6 +205,7 @@ int main(int argc, char *argv[])
                 continue;
                 break;
         }
+        //ins[BUFSIZE-1]='\0';//bind string end
         // send the instruction to server
         if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
             perror("Error on write call");
@@ -215,31 +216,31 @@ int main(int argc, char *argv[])
         if (strcmp(ins, "7")==0) {
             break;
         }
-        memset(&buf, 0, sizeof(buf));//???
+        memset(buf, 0, sizeof(buf));//clean buf
         //Read the message from server
         if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
             perror("Error on read call");
             exit(1);
         }
         printf("Client read %d bytes\n", count);
-        buf[BUFSIZE-1]='\0';
-        strcat(temp, buf);
+        buf[BUFSIZE-1]='\0'; //bind string end
+        strcat(c_output, buf);
         printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
         while (count==(BUFSIZE-1)) {
-            memset(&buf, 0, sizeof(buf));//???
+            memset(buf, 0, sizeof(buf));//clean buf
             if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
                 perror("Error on read call");
                 exit(1);
             }
             printf("Client read %d bytes\n", count);
             printf("Client read (%s)\n", buf);
-            buf[BUFSIZE-1]='\0';
-            strcat(temp, buf);
+            buf[BUFSIZE-1]='\0';  //bind string end
+            strcat(c_output, buf);
         }
         /* print the received message */
-        printf("\n%s\n\n", temp);
+        printf("\n%s\n\n", c_output);
 
         
         Print_Menu();
