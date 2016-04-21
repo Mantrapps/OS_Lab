@@ -130,6 +130,11 @@ int main(int argc, char *argv[])
     //??? Approve or Deny
     printf("\n\n%s\n\n", buf);
     
+    //if deny
+    if (strcmp(buf, "deny")==0) {
+        close(sd);
+    }
+    
     Print_Menu();
 
     while (1) {

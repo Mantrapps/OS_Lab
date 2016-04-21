@@ -108,6 +108,7 @@ public:
             connection_number++;
         }
     }
+
     //Menu-1 Display the names of all known users
     std::string display_all_known_users()
     {
@@ -150,7 +151,18 @@ public:
         int To_id=get_id(to);
         if(To_id==-1)
         {
-            message="Recipient Not Exist!";
+            //make unknown to known
+            stc_clients[connection_number].name=to;
+            stc_clients[connection_number].known=true;
+            message="Message posted to "+to;
+            std::string time_now=get_time_now();
+            //Add amount
+            stc_clients[connection_number].message_amount++;
+            msg="From "+from+", "+time_now+", "+msg;
+            //Add message
+            stc_clients[To_id].message_history[0]=msg;
+            //message="Recipient Not Exist!";
+            connection_number++;
             return message;
         }
         else
@@ -159,7 +171,7 @@ public:
             int index=stc_clients[To_id].message_amount+1;
             //Check if over Max_User_Msg_History
             if (index>Max_User_Msg_History) {
-                message="Recipient Can not accept Message!";
+                message="Recipient: "+to+" Can not accept Message!";
                 return message;
             }
             else{
@@ -234,12 +246,17 @@ public:
             message="Your messages:\n";
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
-                printf("MSG in Menu6:(%s)\n",stc_clients[id].message_history[i].c_str());
                 message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
                 serial++;
             }
+            //after retrivel,clean the message
+            for (int i=0; i<stc_clients[id].message_amount; i++)
+            {
+                stc_clients[id].message_history[i].clear();
+            }
+            stc_clients[id].message_amount=0;
         }
         
         return  message;
@@ -406,21 +423,25 @@ void* handleClient(void *arg)
         perror("read");
         exit(1);
     }
-    printf("Server read %d bytes \n", count);//???
+    printf("Server read %d bytes \n", count);//
+    //If Client exit at enter name;
+    if (count==0) {
+        close(sd);
+    }
+    
     
     client_name=std::string(Ins);
     printf("Name %s\n", client_name.c_str());
     //Make a connection
     sem_wait(&Visit_Server_Data);
     //IF exist user and connected, deny access
-    if(s_db.access_check(client_name)&&connection_number<(Max_Known_Users-1))
+    if(s_db.access_check(client_name)&&connection_number<Max_Known_Users)
     {
         s_db.connect(client_name);
         strcpy(buf,"approve");
     }
     else
     {
-        //??? If deny what next
         strcpy(buf,"deny");
     }
     sem_post(&Visit_Server_Data);
@@ -433,18 +454,20 @@ void* handleClient(void *arg)
     printf("Server sent %d bytes\n", count);
     
     //??? if client control+c to stop the socket, then server will keep while loop
-    //strcmp(temp, "deny")!=0
-    while (1)
+    // if deny
+    while (strcmp(buf, "deny")!=0)
     {
         char Recipient[BUFSIZE];  //store recipient
         char Message[BUFSIZE];    //store message
-        memset(&Recipient, 0, sizeof(Recipient));
-        memset(&Message, 0, sizeof(Recipient));
+        memset(Recipient, 0, sizeof(Recipient));
+        memset(Message, 0, sizeof(Recipient));
+        memset(buf, 0, sizeof(buf));
         //read ins from the client
         if ((count = read(sd, Ins, sizeof(Ins)) ) == -1) {
             perror("read");
             exit(1);
         }
+        
         printf("Server read %d bytes\n", count);//???
         //Known Client want to exit out
         if (strcmp(Ins, "7")==0) {
