@@ -409,17 +409,9 @@ void* handleClient(void *arg)
     {
         //??? If deny what next
         strcpy(buf,"deny");
-        //snprintf(temp, BUFSIZE, "E%s Existed or Connection Full! Access Denied!!!", buf);
     }
     sleep(10);//???
     sem_post(&Visit_Server_Data);
-    //Store User Name; Mark as known; Mark as connecting
-    
-    //strcat(connected_user,buf);
-
-    //snprintf(temp, BUFSIZE, "Hi %s", buf);
-    
-    //need semaphore
     
     //send message back to Client (approve or deny)
     if ( (count = write(sd, buf, strlen(buf)+1) ) == -1) {
@@ -438,7 +430,7 @@ void* handleClient(void *arg)
             exit(1);
         }
         printf("Server read %d bytes\n", count);//???
-        //Known Client wnat to out
+        //Known Client want to exit out
         if (strcmp(Ins, "7")==0) {
             sem_wait(&Visit_Server_Data);
             s_db.disconnect(client_name);

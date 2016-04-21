@@ -216,6 +216,15 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client read %d bytes\n", count);
+        
+        //???
+        while (count==BUFSIZE) {
+            if ( (count = read(sd, buf, BUFSIZE)) == -1) {
+                perror("Error on read call");
+                exit(1);
+            }
+            printf("Client read %d bytes\n", count);
+        }
         /* print the received message */
         printf("\n%s\n", buf);
         
