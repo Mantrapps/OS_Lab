@@ -132,8 +132,8 @@ int main(int argc, char *argv[])
 
     //if deny ???
     if (strcmp(buf, "deny")==0) {
-        printf("I'm here  %s\n\n", buf);
         close(sd);
+        exit(1);
     }
     
     Print_Menu();
