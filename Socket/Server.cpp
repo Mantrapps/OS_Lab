@@ -114,7 +114,6 @@ public:
     {
         std::string message;
         message="Known users:\n";
-        //??? serial no
         int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known) {
@@ -131,7 +130,6 @@ public:
     {
         std::string message;
         message="Currently Connected users:\n";
-        //??? serial no
         int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected) {
@@ -147,7 +145,7 @@ public:
     std::string message_to (std::string from, std::string to, std::string msg)
     {
         std::string message;
-        //??? check no exist user
+        // check no exist user
         int To_id=get_id(to);
         if(To_id==-1)
         {
@@ -186,12 +184,12 @@ public:
             }
         }
     }
-    //Menu-4 Send a text message to all currently connected users ??? (Ignore all full message users)
+    //Menu-4 Send a text message to all currently connected users ??? (Return Message)
     std::string message_to_connecting_users(std::string from, std::string msg)
     {
         
         std::string message;
-        message="Message posted to all currently connected users";
+        message="Message posted to all currently connected users.\n";
         std::string time_now=get_time_now();
         msg="From "+from+", "+time_now+", "+msg;
         //printf("MSG:(%s)\n",msg.c_str());
@@ -206,11 +204,16 @@ public:
                     //Add message
                     stc_clients[i].message_history[--index]=msg;
                 }
+                else
+                {
+                    //Return Message to those who cant accept more messages
+                    message.append(stc_clients[i].name+" can't accept more messages.\n");
+                }
             }
         }
         return message;
     }
-    //Menu-5 Send a text message to all known users ???(Ignore all full message users)
+    //Menu-5 Send a text message to all known users ???(Return Message)
     std::string message_to_known_users(std::string from, std::string msg)
     {
         std::string message;
@@ -227,6 +230,11 @@ public:
                     stc_clients[i].message_amount=index;
                     //Add message
                     stc_clients[i].message_history[--index]=msg;
+                }
+                else
+                {
+                    //Return Message to those who cant accept more messages
+                    message.append(stc_clients[i].name+" can't accept more messages.\n");
                 }
             }
         }
@@ -556,7 +564,7 @@ void* handleClient(void *arg)
     }
     
     /* close socket */
-    while (strcmp(buf, "deny")!=0) {
+    if (strcmp(buf, "deny")!=0) {
         printf("%s Close\n",client_name.c_str());
     }
     close(sd);

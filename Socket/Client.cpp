@@ -61,14 +61,12 @@ int main(int argc, char *argv[])
     // Send message
     char ins[BUFSIZE];
     
-    //???
     int count;
     
     /* check for command line arguments */
     if (argc != 3)
     {
-        ///???
-        printf("Usage: client host port\n");
+        printf("Missings argument!\n");
         exit(1);
     }
     
@@ -126,11 +124,9 @@ int main(int argc, char *argv[])
     }
     //Read IF connected
     printf("Client read %d bytes\n", count);
-    /* print the received message */
-    //??? Approve or Deny
-    printf("\n\n%s\n\n", buf);
-
-    //if deny ???
+    
+    //Approve or deny
+    //printf("\n\n%s\n\n", buf);
     if (strcmp(buf, "deny")==0) {
         close(sd);
         exit(1);
@@ -143,7 +139,7 @@ int main(int argc, char *argv[])
         //c_output for output
         char c_output[BUFSIZE];
         memset(c_output, 0, sizeof(c_output));
-        memset(ins, 0, sizeof(ins));//???
+        memset(ins, 0, sizeof(ins));
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
