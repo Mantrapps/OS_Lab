@@ -355,7 +355,6 @@ int main(int argc, char *argv[])
     
     while (1)
     {
-        printf("While!\n");
         if ((sd_current = accept(sd, (struct sockaddr *)  &cli_i_addr, (socklen_t*)&addrlen)) == -1)
         {
             perror("Error on accept call");
@@ -412,7 +411,7 @@ void* handleClient(void *arg)
         strcpy(buf,"deny");
         //snprintf(temp, BUFSIZE, "E%s Existed or Connection Full! Access Denied!!!", buf);
     }
-    sleep(10000);//???
+    sleep(10);//???
     sem_post(&Visit_Server_Data);
     //Store User Name; Mark as known; Mark as connecting
     
