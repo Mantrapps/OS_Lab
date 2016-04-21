@@ -97,7 +97,6 @@ public:
         else
         {
             //new array id
-            connection_number++;
             //Client Name
             stc_clients[connection_number].name=name;
             if (!stc_clients[connection_number].known)
@@ -106,6 +105,7 @@ public:
             }
             stc_clients[connection_number].connected=true;
             printf("%s, Connection by unknown user %s\n",get_time_now().c_str(),name.c_str());
+            connection_number++;
         }
     }
     //Menu-1 Display the names of all known users
@@ -114,10 +114,13 @@ public:
         std::string message;
         message="Known users:\n";
         //??? serial no
+        int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known) {
+                message.append(std::to_string(serial)+":");
                 message.append(stc_clients[i].name.c_str());
                 message.append("\n");
+                serial++;
             }
         }
         return message;
@@ -180,7 +183,8 @@ public:
             if (stc_clients[i].connected)
             {
                 int index=stc_clients[i].message_amount+1;
-                if (index<Max_User_Msg_History) {
+                if (index<Max_User_Msg_History)
+                {
                     std::string time_now=get_time_now();
                     //Add amount
                     stc_clients[i].message_amount=index;
@@ -229,7 +233,8 @@ public:
             message="Your messages:\n";
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
-                printf("Client_Name: %s\n, Message_amount: %d",name.c_str(),stc_clients[id].message_amount);
+                printf("Client_Name: %s, Message_amount: %d\n",name.c_str(),stc_clients[id].message_amount);
+                printf("Message: %s @\n",stc_clients[id].message_history[i].c_str());
                 message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
