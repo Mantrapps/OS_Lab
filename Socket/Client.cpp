@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     printf("Client read %d bytes\n", count);
     /* print the received message */
     //??? Approve or Deny
-    printf("\n\n%s\n\n", buf);
+    printf("\n\n(%s)\n\n", buf);
     
     //if deny
     if (strcmp(buf, "deny")==0) {

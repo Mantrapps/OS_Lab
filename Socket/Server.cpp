@@ -424,12 +424,12 @@ void* handleClient(void *arg)
         exit(1);
     }
     printf("Server read %d bytes \n", count);//
-    //If Client exit at enter name;
+    /*If Client exit at enter name;
     if (count==0) {
         printf("I'm here read %d bytes \n", count);//
         close(sd);
     }
-    
+    */
     
     client_name=std::string(Ins);
     printf("Name %s\n", client_name.c_str());
