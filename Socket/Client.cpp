@@ -58,8 +58,11 @@ int main(int argc, char *argv[])
     
     // receive message
     char buf[BUFSIZE];
-    // Send message
+    // Send menu instruction
     char ins[BUFSIZE];
+    // Send message
+    char msg[BUFSIZE];
+
     
     int count;
     
@@ -140,6 +143,7 @@ int main(int argc, char *argv[])
         char c_output[BUFSIZE];
         memset(c_output, 0, sizeof(c_output));
         memset(ins, 0, sizeof(ins));
+        memset(msg, 0, sizeof(msg));
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
@@ -147,61 +151,60 @@ int main(int argc, char *argv[])
         
         switch (ins[0]) {
             case '1':
-                strncpy(ins, "1", 1);
-                printf("\n(%s)\n", ins);
+                strncpy(msg, "1", 1);
                 break;
             case '2':
-                strncpy(ins, "2", 1);
+                strncpy(msg, "2", 1);
                 break;
             case '3'://Message to someone
                 
-                strncpy(ins, "3", sizeof(ins));
-                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                strncpy(msg, "3", sizeof(msg));
+                if ( (count = write(sd, msg, strlen(msg)+1)) == -1) {
                     perror("Error on write call");
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
                 
                 printf("Enter Recipient's name:");
-                std::cin.getline(ins,sizeof(ins)); // get recipient
+                std::cin.getline(msg,sizeof(msg)); // get recipient
     
-                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                if ( (count = write(sd, msg, strlen(msg)+1)) == -1) {
                     perror("Error on write call");
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
                 
                 printf("Enter a message:");
-                std::cin.getline(ins,sizeof(ins)); // get message
+                std::cin.getline(msg,sizeof(msg)); // get message
 
                 break;
             case '4'://Message to every current connected person
-                strncpy(ins, "4", sizeof(ins));
-                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                strncpy(msg, "4", sizeof(msg));
+                if ( (count = write(sd, msg, strlen(msg)+1)) == -1) {
                     perror("Error on write call");
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
                 
                 printf("Enter a message:");
-                std::cin.getline(ins,sizeof(ins)); // get message
+                std::cin.getline(msg,sizeof(msg)); // get message
                 break;
             case '5'://message to every known person
-                strncpy(ins, "5", sizeof(ins));
-                if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+                strncpy(msg, "5", sizeof(msg));
+                if ( (count = write(sd, msg, strlen(msg)+1)) == -1) {
                     perror("Error on write call");
                     exit(1);
                 }
                 printf("Client sent %d bytes\n", count);
                 
                 printf("Enter a message:");
-                std::cin.getline(ins,sizeof(ins)); // get message
+                std::cin.getline(msg,sizeof(msg)); // get message
                 break;
             case '6':
-                strncpy(ins, "6", 1);
+                strncpy(msg, "6", 1);
                 break;
             case '7':
-                strncpy(ins, "7", 1);
+                strncpy(msg, "7", 1);
                 break;
             default:
                 printf("Invalid Input!!!\n");
@@ -210,7 +213,7 @@ int main(int argc, char *argv[])
         }
         //ins[BUFSIZE-1]='\0';//bind string end
         // send the instruction to server
-        if ( (count = write(sd, ins, strlen(ins)+1)) == -1) {
+        if ( (count = write(sd, msg, strlen(msg)+1)) == -1) {
             perror("Error on write call");
             exit(1);
         }
