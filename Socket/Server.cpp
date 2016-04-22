@@ -460,7 +460,7 @@ void* handleClient(void *arg)
         perror("write");
         exit(1);
     }
-    printf("1.Server sent %d bytes\n", count);
+    printf("Server sent %d bytes\n", count);
     
     //??? if client control+c to stop the socket, then server will keep while loop
     // if deny
@@ -480,7 +480,7 @@ void* handleClient(void *arg)
         
         printf("2.Server read %d bytes\n", count);//???
         //Known Client want to exit out
-        if (strcmp(Ins, "7")==0) {
+        if (strcmp(Ins, "7")==0||count==0) {
             sem_wait(&Visit_Server_Data);
             s_db.disconnect(client_name);
             printf("%s, %s exits.\n",get_time_now().c_str(),client_name.c_str());
