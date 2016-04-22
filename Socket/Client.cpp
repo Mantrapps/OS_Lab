@@ -40,6 +40,47 @@ void Print_Menu()
     printf("7: Exit.\n");
 }
 
+string message_print(int print_format, char output[])
+{
+    string formatted_string;
+    int n=0;
+    if (print_format==0) {
+        formatted_string="\n";
+    }
+    switch (print_format) {
+        case 1:
+            formatted_string="Known Users:\n";
+            char* subchar_array = strtok(output, "\\");
+            while (subchar_array!=NULL) {
+                formatted_string.append(to_string(++n)+":\n");
+                formatted_string.append(subchar_array);
+                formatted_string.append("\n");
+                subchar_array = strtok(NULL, "\\");
+            }
+            break;
+            /*
+             case 2:
+             
+             break;
+             case 3:
+             
+             break;
+             case 4:
+             
+             break;
+             case 5:
+             
+             break;
+             case 6:
+             
+             break;
+             */
+            
+    }
+    return formatted_string;
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -144,6 +185,8 @@ int main(int argc, char *argv[])
         memset(c_output, 0, sizeof(c_output));
         memset(ins, 0, sizeof(ins));
         memset(msg, 0, sizeof(msg));
+        //Format message
+        int print_format=0;
         //User Char Ins to transfer data
         printf("Enter your choice: ");
         std::cin.getline(ins,sizeof(ins));
@@ -152,6 +195,7 @@ int main(int argc, char *argv[])
         switch (ins[0]) {
             case '1':
                 strncpy(msg, "1", 1);
+                print_format=1;
                 break;
             case '2':
                 strncpy(msg, "2", 1);
@@ -218,19 +262,22 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client sent %d bytes\n", count);
-        
+        //if ins is to exit
         if (strcmp(ins, "7")==0) {
             break;
         }
         memset(buf, 0, sizeof(buf));//clean buf
         //Read the message from server
+        
         if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
             perror("Error on read call");
             exit(1);
         }
         printf("Client read %d bytes\n", count);
         buf[BUFSIZE-1]='\0'; //bind string end
+        //store to c_output
         strcat(c_output, buf);
+
         printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
@@ -246,7 +293,10 @@ int main(int argc, char *argv[])
             strcat(c_output, buf);
         }
         /* print the received message */
-        printf("\n%s\n\n", c_output);
+        
+        int i=0;
+
+        printf("\n%s\n\n", message_print(i, c_output).c_str());
 
         
         Print_Menu();
@@ -255,6 +305,6 @@ int main(int argc, char *argv[])
     /* close the socket */
     close(sd);
 }
-//Check input
+
 
 

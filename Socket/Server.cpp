@@ -50,9 +50,9 @@ struct str_client
     bool known;
     // Currently Connected
     bool connected;
-    //
+    // Message Amount
     int message_amount;
-    // Message history  ???
+    // Message history
     std::string message_history[Max_User_Msg_History];
 };
 
@@ -113,14 +113,15 @@ public:
     std::string display_all_known_users()
     {
         std::string message;
-        message="Known users:\n";
-        int serial=1;
+        //message="Known users:\n";
+        //int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].known) {
-                message.append(std::to_string(serial)+":");
+                //message.append(std::to_string(serial)+":");
                 message.append(stc_clients[i].name.c_str());
-                message.append("\n");
-                serial++;
+                //message.append("\n");
+                message.append("\\");
+                //serial++;
             }
         }
         return message;
@@ -462,11 +463,9 @@ void* handleClient(void *arg)
     }
     printf("Server sent %d bytes\n", count);
     
-    //??? if client control+c to stop the socket, then server will keep while loop
-    // if deny
     while (strcmp(buf, "deny")!=0)
     {
-        printf("While\n");
+
         char Recipient[BUFSIZE];  //store recipient
         char Message[BUFSIZE];    //store message
         memset(Recipient, 0, sizeof(Recipient));
