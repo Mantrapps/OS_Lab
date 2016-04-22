@@ -40,7 +40,7 @@ void Print_Menu()
     printf("7: Exit.\n");
 }
 
-string message_print(int print_format, char* output)
+void message_print(int print_format, char* output)
 {
     string formatted_string;
     int n=0;
@@ -77,7 +77,7 @@ string message_print(int print_format, char* output)
              */
             
     }
-    return formatted_string;
+    cout<<formatted_string<<endl;
 }
 
 
@@ -293,10 +293,8 @@ int main(int argc, char *argv[])
             strcat(c_output, buf);
         }
         /* print the received message */
-        
-        int i=0;
 
-        printf("\n%s\n\n", message_print(i, c_output).c_str());
+        printf("\n%s\n\n",c_output);
 
         
         Print_Menu();
