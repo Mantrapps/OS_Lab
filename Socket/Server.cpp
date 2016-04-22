@@ -514,7 +514,14 @@ void* handleClient(void *arg)
                 }
                 printf("Inside function-3-Message, Server read %d bytes\n", count);//???
                 sem_wait(&Visit_Server_Data);
-                strcpy(buf,s_db.message_to(client_name, Recipient, Message).c_str());
+                if (strcmp(Message, "")!=0 && strcmp(Recipient, "")!=0)//In case ctrl+c
+                {
+                    strcpy(buf,s_db.message_to(client_name, Recipient, Message).c_str());
+                }
+                else
+                {
+                    strcpy(buf, "Invalid Input!!!");
+                }
                 sem_post(&Visit_Server_Data);
                 printf("%s, %s post a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
                 break;
@@ -526,7 +533,14 @@ void* handleClient(void *arg)
                 }
                 printf("Inside function-4-Message, Server read %d bytes\n", count);//???
                 sem_wait(&Visit_Server_Data);
-                strcpy(buf,s_db.message_to_connecting_users(client_name, Message).c_str());
+                if (strcmp(Message, "")!=0) //In case ctrl+c
+                {
+                    strcpy(buf,s_db.message_to_connecting_users(client_name, Message).c_str());
+                }
+                else
+                {
+                    strcpy(buf, "Invalid Input!!!");
+                }
                 sem_post(&Visit_Server_Data);
                 
                 printf("%s, %s post a message for all connected users.\n",get_time_now().c_str(),client_name.c_str());
@@ -538,7 +552,14 @@ void* handleClient(void *arg)
                 }
                 printf("Inside function-5-Message, Server read %d bytes\n", count);//???
                 sem_wait(&Visit_Server_Data);
-                strcpy(buf,s_db.message_to_known_users(client_name, Message).c_str());
+                if (strcmp(Message, "")!=0) //In case ctrl+c
+                {
+                    strcpy(buf,s_db.message_to_known_users(client_name, Message).c_str());
+                }
+                else
+                {
+                    strcpy(buf, "Invalid Input!!!");
+                }
                 sem_post(&Visit_Server_Data);
                 
                 printf("%s, %s post a message for all known users.\n",get_time_now().c_str(),client_name.c_str());
