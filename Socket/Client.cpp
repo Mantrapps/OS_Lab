@@ -40,7 +40,7 @@ void Print_Menu()
     printf("7: Exit.\n");
 }
 
-string message_print(int print_format, char output[])
+string message_print(int print_format, char* output)
 {
     string formatted_string;
     int n=0;
@@ -52,12 +52,11 @@ string message_print(int print_format, char output[])
             formatted_string="Known Users:\n";
             char* subchar_array = strtok(output, "\\");
             while (subchar_array!=NULL) {
-                formatted_string.append(to_string(++n)+":\n");
+                formatted_string.append(to_string(++n));
                 formatted_string.append(subchar_array);
                 formatted_string.append("\n");
                 subchar_array = strtok(NULL, "\\");
             }
-            printf("\n%s\n",formatted_string.c_str());
             break;
             /*
              case 2:
