@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
             strcat(c_output, buf);
         }
         /* print the received message */
-
+        message_print(1, c_output);
         printf("\n%s\n\n",c_output);
 
         
