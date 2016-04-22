@@ -57,6 +57,7 @@ string message_print(int print_format, char output[])
                 formatted_string.append("\n");
                 subchar_array = strtok(NULL, "\\");
             }
+            printf("\n%s\n",formatted_string.c_str());
             break;
             /*
              case 2:
