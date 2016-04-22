@@ -197,7 +197,7 @@ public:
             if (stc_clients[i].connected)
             {
                 int index=stc_clients[i].message_amount+1;
-                if (index<Max_User_Msg_History)
+                if (index<=Max_User_Msg_History)
                 {
                     //Add amount
                     stc_clients[i].message_amount=index;
@@ -225,7 +225,7 @@ public:
             if (stc_clients[i].known)
             {
                 int index=stc_clients[i].message_amount+1;
-                if (index<Max_User_Msg_History) {
+                if (index<=Max_User_Msg_History) {
                     //Add amount
                     stc_clients[i].message_amount=index;
                     //Add message
