@@ -49,33 +49,49 @@ void message_print(int print_format, char* output)
     }
     switch (print_format) {
         case 1:
-            formatted_string="Known Users:\n";
+        {formatted_string="Known Users:\n";
             char* subchar_array = strtok(output, "\\");
             while (subchar_array!=NULL) {
+                formatted_string.append("\t");
                 formatted_string.append(to_string(++n));
+                formatted_string.append(":");
                 formatted_string.append(subchar_array);
                 formatted_string.append("\n");
                 subchar_array = strtok(NULL, "\\");
             }
             break;
-            /*
-             case 2:
-             
-             break;
-             case 3:
-             
-             break;
-             case 4:
-             
-             break;
-             case 5:
-             
-             break;
-             case 6:
-             
-             break;
-             */
-            
+        }
+        case 2:
+        {formatted_string="Currently Connected Users:\n";
+            char* subchar_array = strtok(output, "\\");
+            while (subchar_array!=NULL) {
+                formatted_string.append(to_string(++n));
+                formatted_string.append(":");
+                formatted_string.append(subchar_array);
+                formatted_string.append("\n");
+                subchar_array = strtok(NULL, "\\");
+            }
+            break;
+        }
+        case 6:
+        {
+            if (strcmp(output, "NULL")==0) {
+                formatted_string="You don't have messages.\n";
+            }
+            else
+            {
+                formatted_string="Your Messages Users:\n";
+                char* subchar_array = strtok(output, "\\");
+                while (subchar_array!=NULL) {
+                    formatted_string.append(to_string(++n));
+                    formatted_string.append(":");
+                    formatted_string.append(subchar_array);
+                    formatted_string.append("\n");
+                    subchar_array = strtok(NULL, "\\");
+                }
+            }
+            break;
+        }
     }
     cout<<formatted_string<<endl;
 }
@@ -199,6 +215,7 @@ int main(int argc, char *argv[])
                 break;
             case '2':
                 strncpy(msg, "2", 1);
+                print_format=2;
                 break;
             case '3'://Message to someone
                 
@@ -246,6 +263,7 @@ int main(int argc, char *argv[])
                 break;
             case '6':
                 strncpy(msg, "6", 1);
+                print_format=6;
                 break;
             case '7':
                 strncpy(msg, "7", 1);
@@ -262,22 +280,21 @@ int main(int argc, char *argv[])
             exit(1);
         }
         printf("Client sent %d bytes\n", count);
-        //if ins is to exit
+        //if the instruction is to exit
         if (strcmp(ins, "7")==0) {
             break;
         }
         memset(buf, 0, sizeof(buf));//clean buf
         //Read the message from server
-        
         if ( (count = read(sd, buf, BUFSIZE-1)) == -1) {
             perror("Error on read call");
             exit(1);
         }
+        //
         printf("Client read %d bytes\n", count);
         buf[BUFSIZE-1]='\0'; //bind string end
         //store to c_output
         strcat(c_output, buf);
-
         printf("Client read (%s)\n", buf);
         //???
         //if last time =80?
@@ -293,9 +310,14 @@ int main(int argc, char *argv[])
             strcat(c_output, buf);
         }
         /* print the received message */
-        message_print(1, c_output);
-        printf("\n%s\n\n",c_output);
-
+        if (print_format!=0) {
+            //Build output format
+            message_print(print_format, c_output);
+        }
+        else
+        {
+            printf("\n%s\n\n",c_output);
+        }
         
         Print_Menu();
     }

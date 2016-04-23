@@ -130,14 +130,14 @@ public:
     std::string display_all_connecting_users()
     {
         std::string message;
-        message="Currently Connected users:\n";
-        int serial=1;
+        //message="Currently Connected users:\n";
+        //int serial=1;
         for (int i=0; i<Max_Known_Users; i++) {
             if (stc_clients[i].connected) {
-                message.append(std::to_string(serial)+":");
+                //message.append(std::to_string(serial)+":");
                 message.append(stc_clients[i].name.c_str());
-                message.append("\n");
-                serial++;
+                message.append("\\");
+                //serial++;
             }
         }
         return message;
@@ -245,20 +245,20 @@ public:
     std::string Get_my_messages(std::string name)
     {
         std::string message;
-        int serial=1;
+        //int serial=1;
         //who
         int id=get_id(name);
         if (stc_clients[id].message_amount==0) {
-            message="You don't have messages.\n";
+            message="NULL";
         }
         else{
-            message="Your messages:\n";
+            //message="Your messages:\n";
             for (int i=0; i<stc_clients[id].message_amount; i++)
             {
-                message.append(std::to_string(serial)+":");
+                //message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
                 message.append("\n");
-                serial++;
+                //serial++;
             }
             //after retrivel,clean the message
             for (int i=0; i<stc_clients[id].message_amount; i++)
@@ -489,7 +489,9 @@ void* handleClient(void *arg)
         switch (Ins[0]) {
             case '1':
                 sem_wait(&Visit_Server_Data);
+                //Msg for Client
                 strcpy(buf,s_db.display_all_known_users().c_str());
+                //Print at Server
                 printf("%s, %s displays all known usrs.\n",get_time_now().c_str(),client_name.c_str());
                 sem_post(&Visit_Server_Data);
                 break;
