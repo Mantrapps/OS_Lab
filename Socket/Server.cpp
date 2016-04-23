@@ -524,7 +524,7 @@ void* handleClient(void *arg)
                     strcpy(buf, "Invalid Input!!!");
                 }
                 sem_post(&Visit_Server_Data);
-                printf("%s, %s post a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
+                printf("%s, %s posts a message for %s.\n",get_time_now().c_str(),client_name.c_str(),Recipient);
                 break;
             case '4'://Message to every current connected person ???
                 
@@ -544,7 +544,7 @@ void* handleClient(void *arg)
                 }
                 sem_post(&Visit_Server_Data);
                 
-                printf("%s, %s post a message for all connected users.\n",get_time_now().c_str(),client_name.c_str());
+                printf("%s, %s posts a message for all connected users.\n",get_time_now().c_str(),client_name.c_str());
                 break;
             case '5'://message to every known person ???
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
@@ -563,7 +563,7 @@ void* handleClient(void *arg)
                 }
                 sem_post(&Visit_Server_Data);
                 
-                printf("%s, %s post a message for all known users.\n",get_time_now().c_str(),client_name.c_str());
+                printf("%s, %s posts a message for all known users.\n",get_time_now().c_str(),client_name.c_str());
                 break;
             case '6':
                 sem_wait(&Visit_Server_Data);
