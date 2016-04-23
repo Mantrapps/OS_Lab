@@ -65,6 +65,7 @@ void message_print(int print_format, char* output)
         {formatted_string="Currently Connected Users:\n";
             char* subchar_array = strtok(output, "\\");
             while (subchar_array!=NULL) {
+                formatted_string.append("\t");
                 formatted_string.append(to_string(++n));
                 formatted_string.append(":");
                 formatted_string.append(subchar_array);
@@ -175,7 +176,7 @@ int main(int argc, char *argv[])
         perror("Error on write call");
         exit(1);
     }
-    printf("Client sent %d bytes\n", count);
+    //printf("Client sent %d bytes\n", count);//delete
     
     /* wait for a message to come back from the server */
     if ( (count = read(sd, buf, BUFSIZE)) == -1) {
@@ -183,7 +184,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     //Read IF connected
-    printf("Client read %d bytes\n", count);
+    //printf("Client read %d bytes\n", count);//delete
     
     //Approve or deny
     //printf("\n\n%s\n\n", buf);
@@ -291,11 +292,11 @@ int main(int argc, char *argv[])
             exit(1);
         }
         //
-        //printf("Client read %d bytes\n", count); //delete
+        printf("Client read %d bytes\n", count); //delete
         buf[BUFSIZE-1]='\0'; //bind string end
         //store to c_output
         strcat(c_output, buf);
-        //printf("Client read (%s)\n", buf); //delete
+        printf("Client read (%s)\n", buf); //delete
         //if last time =80?
         while (count==(BUFSIZE-1)) {
             memset(buf, 0, sizeof(buf));//clean buf
@@ -303,14 +304,15 @@ int main(int argc, char *argv[])
                 perror("Error on read call");
                 exit(1);
             }
-            //printf("Client read %d bytes\n", count);//delete
-            //printf("Client read (%s)\n", buf);//delete
+            printf("Client read %d bytes\n", count);//delete
+            printf("Client read (%s)\n", buf);//delete
             buf[BUFSIZE-1]='\0';  //bind string end
             strcat(c_output, buf);
         }
         /* print the received message */
         if (print_format!=0) {
             //Build output format
+            printf("\n");
             message_print(print_format, c_output);
         }
         else
