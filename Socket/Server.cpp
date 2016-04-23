@@ -257,7 +257,7 @@ public:
             {
                 //message.append(std::to_string(serial)+":");
                 message.append(stc_clients[id].message_history[i]);
-                message.append("\n");
+                message.append("\\");
                 //serial++;
             }
             //after retrivel,clean the message
