@@ -409,8 +409,8 @@ int main(int argc, char *argv[])
     }
     
     /* close socket */
-    //???
-    printf("OOOPS!!!\n");
+
+    //printf("OOOPS!!!\n");//delete
     close(sd);
 }
 
@@ -585,14 +585,16 @@ void* handleClient(void *arg)
         //printf("3.Server sent %d bytes\n", count);//delete
     }
     
-    /* close socket */
+    //socket close by ctrl+c in client side
     if (strcmp(buf, "deny")!=0 && strcmp(Ins,"7")!=0) {
         printf("%s close socket channel by itself!\n",client_name.c_str());
     }
+    //Deny access as same connected user
     if (strcmp(buf, "deny")==0) {
         printf("Denied access (duplicate connected user) by server!\n");
     }
     close(sd);
+    return NULL;
 }
 
 
