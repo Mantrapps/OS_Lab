@@ -432,7 +432,7 @@ void* handleClient(void *arg)
         perror("read");
         exit(1);
     }
-    printf("Server read %d bytes \n", count);//
+    //printf("Server read %d bytes \n", count);//delete
     /*If Client exit at enter name;
     if (count==0) {
         printf("I'm here read %d bytes \n", count);//
@@ -441,7 +441,7 @@ void* handleClient(void *arg)
     */
     
     client_name=std::string(Ins);
-    printf("Name %s\n", client_name.c_str());
+    //printf("Name %s\n", client_name.c_str());//delete
     //Make a connection
     sem_wait(&Visit_Server_Data);
     //IF exist user and connected, deny access
@@ -461,7 +461,7 @@ void* handleClient(void *arg)
         perror("write");
         exit(1);
     }
-    printf("Server sent %d bytes\n", count);
+    //printf("Server sent %d bytes\n", count);//delete
     
     while (strcmp(buf, "deny")!=0)
     {
@@ -477,7 +477,7 @@ void* handleClient(void *arg)
             exit(1);
         }
         
-        printf("2.Server read %d bytes\n", count);//???
+        //printf("2.Server read %d bytes\n", count);//delete
         //Known Client want to exit out
         if (strcmp(Ins, "7")==0||count==0) {
             sem_wait(&Visit_Server_Data);
@@ -507,13 +507,13 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-3-Recipient, Server read %d bytes\n", count);//???
+                //printf("Inside function-3-Recipient, Server read %d bytes\n", count);//delete
                 //read message
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-3-Message, Server read %d bytes\n", count);//???
+                //printf("Inside function-3-Message, Server read %d bytes\n", count);//delete
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0 && strcmp(Recipient, "")!=0)//In case ctrl+c
                 {
@@ -532,7 +532,7 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-4-Message, Server read %d bytes\n", count);//???
+                //printf("Inside function-4-Message, Server read %d bytes\n", count);//delete
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0) //In case ctrl+c
                 {
@@ -551,7 +551,7 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                printf("Inside function-5-Message, Server read %d bytes\n", count);//???
+                //printf("Inside function-5-Message, Server read %d bytes\n", count);//delete
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0) //In case ctrl+c
                 {
@@ -582,12 +582,15 @@ void* handleClient(void *arg)
             perror("write");
             exit(1);
         }
-        printf("3.Server sent %d bytes\n", count);
+        //printf("3.Server sent %d bytes\n", count);//delete
     }
     
     /* close socket */
-    if (strcmp(buf, "deny")!=0) {
-        printf("%s Close\n",client_name.c_str());
+    if (strcmp(buf, "deny")!=0 && strcmp(Ins,"7")!=0) {
+        printf("%s Close by client!\n",client_name.c_str());
+    }
+    if (strcmp(buf, "deny")==0) {
+        printf("Denied access (duplicate connected user) by server!\n");
     }
     close(sd);
 }

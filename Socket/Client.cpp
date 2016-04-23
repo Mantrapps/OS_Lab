@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
                     perror("Error on write call");
                     exit(1);
                 }
-                printf("Client sent %d bytes\n", count);
+                //printf("Client sent %d bytes\n", count);//delete
                 
                 printf("Enter Recipient's name:");
                 std::cin.getline(msg,sizeof(msg)); // get recipient
@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
                     perror("Error on write call");
                     exit(1);
                 }
-                printf("Client sent %d bytes\n", count);
+                //printf("Client sent %d bytes\n", count);//delete
                 
                 printf("Enter a message:");
                 std::cin.getline(msg,sizeof(msg)); // get message
@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
                     perror("Error on write call");
                     exit(1);
                 }
-                printf("Client sent %d bytes\n", count);
+                //printf("Client sent %d bytes\n", count);//delete
                 
                 printf("Enter a message:");
                 std::cin.getline(msg,sizeof(msg)); // get message
@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
                     perror("Error on write call");
                     exit(1);
                 }
-                printf("Client sent %d bytes\n", count);
+                //printf("Client sent %d bytes\n", count); //delete
                 
                 printf("Enter a message:");
                 std::cin.getline(msg,sizeof(msg)); // get message
@@ -279,7 +279,7 @@ int main(int argc, char *argv[])
             perror("Error on write call");
             exit(1);
         }
-        printf("Client sent %d bytes\n", count);
+        //printf("Client sent %d bytes\n", count); //delete
         //if the instruction is to exit
         if (strcmp(ins, "7")==0) {
             break;
@@ -291,12 +291,11 @@ int main(int argc, char *argv[])
             exit(1);
         }
         //
-        printf("Client read %d bytes\n", count);
+        //printf("Client read %d bytes\n", count); //delete
         buf[BUFSIZE-1]='\0'; //bind string end
         //store to c_output
         strcat(c_output, buf);
-        printf("Client read (%s)\n", buf);
-        //???
+        //printf("Client read (%s)\n", buf); //delete
         //if last time =80?
         while (count==(BUFSIZE-1)) {
             memset(buf, 0, sizeof(buf));//clean buf
@@ -304,8 +303,8 @@ int main(int argc, char *argv[])
                 perror("Error on read call");
                 exit(1);
             }
-            printf("Client read %d bytes\n", count);
-            printf("Client read (%s)\n", buf);
+            //printf("Client read %d bytes\n", count);//delete
+            //printf("Client read (%s)\n", buf);//delete
             buf[BUFSIZE-1]='\0';  //bind string end
             strcat(c_output, buf);
         }
@@ -316,9 +315,9 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf("\n%s\n\n",c_output);
+            printf("\n%s\n",c_output);
         }
-        
+        printf("\n");
         Print_Menu();
     }
     
