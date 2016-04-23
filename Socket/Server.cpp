@@ -587,7 +587,7 @@ void* handleClient(void *arg)
     
     /* close socket */
     if (strcmp(buf, "deny")!=0 && strcmp(Ins,"7")!=0) {
-        printf("%s Close by client it self!\n",client_name.c_str());
+        printf("%s close socket channel by itself!\n",client_name.c_str());
     }
     if (strcmp(buf, "deny")==0) {
         printf("Denied access (duplicate connected user) by server!\n");

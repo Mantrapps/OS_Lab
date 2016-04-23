@@ -84,6 +84,7 @@ void message_print(int print_format, char* output)
                 formatted_string="Your Messages Users:\n";
                 char* subchar_array = strtok(output, "\\");
                 while (subchar_array!=NULL) {
+                    formatted_string.append("\t");
                     formatted_string.append(to_string(++n));
                     formatted_string.append(":");
                     formatted_string.append(subchar_array);
@@ -292,11 +293,11 @@ int main(int argc, char *argv[])
             exit(1);
         }
         //
-        printf("Client read %d bytes\n", count); //delete
+        //printf("Client read %d bytes\n", count); //delete
         buf[BUFSIZE-1]='\0'; //bind string end
         //store to c_output
         strcat(c_output, buf);
-        printf("Client read (%s)\n", buf); //delete
+        //printf("Client read (%s)\n", buf); //delete
         //if last time =80?
         while (count==(BUFSIZE-1)) {
             memset(buf, 0, sizeof(buf));//clean buf
@@ -304,8 +305,8 @@ int main(int argc, char *argv[])
                 perror("Error on read call");
                 exit(1);
             }
-            printf("Client read %d bytes\n", count);//delete
-            printf("Client read (%s)\n", buf);//delete
+            //printf("Client read %d bytes\n", count);//delete
+            //printf("Client read (%s)\n", buf);//delete
             buf[BUFSIZE-1]='\0';  //bind string end
             strcat(c_output, buf);
         }
