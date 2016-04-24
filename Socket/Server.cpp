@@ -29,8 +29,6 @@
 #define Max_User_Msg_History 10 //Maximum of 10 messages each users
 
 
-//semaphore Connect_id, 1
-static sem_t Connect_id;
 //semaphore Visit_Server_Data, 1
 static sem_t Visit_Server_Data;
 // connection amount
@@ -327,16 +325,9 @@ int main(int argc, char *argv[])
     //client internet address
     struct sockaddr_in cli_i_addr;
     
-    // ???
     pthread_t tid;
     pthread_attr_t attr;
     
-    //Initialize semaphore assign Connect_id
-    if(sem_init(&Connect_id, 0, 1)==-1)
-    {
-        perror("sem_init Connect_id");
-        exit(EXIT_FAILURE);
-    }
     //Initialize semaphore assign Connect_id
     if(sem_init(&Visit_Server_Data, 0, 1)==-1)
     {
@@ -410,7 +401,6 @@ int main(int argc, char *argv[])
     
     /* close socket */
 
-    //printf("OOOPS!!!\n");//delete
     close(sd);
 }
 
@@ -432,16 +422,9 @@ void* handleClient(void *arg)
         perror("read");
         exit(1);
     }
-    //printf("Server read %d bytes \n", count);//delete
-    /*If Client exit at enter name;
-    if (count==0) {
-        printf("I'm here read %d bytes \n", count);//
-        close(sd);
-    }
-    */
-    
+
     client_name=std::string(Ins);
-    //printf("Name %s\n", client_name.c_str());//delete
+
     //Make a connection
     sem_wait(&Visit_Server_Data);
     //IF exist user and connected, deny access
@@ -461,7 +444,7 @@ void* handleClient(void *arg)
         perror("write");
         exit(1);
     }
-    //printf("Server sent %d bytes\n", count);//delete
+
     
     while (strcmp(buf, "deny")!=0)
     {
@@ -477,7 +460,6 @@ void* handleClient(void *arg)
             exit(1);
         }
         
-        //printf("2.Server read %d bytes\n", count);//delete
         //Known Client want to exit out
         if (strcmp(Ins, "7")==0||count==0) {
             sem_wait(&Visit_Server_Data);
@@ -507,13 +489,11 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                //printf("Inside function-3-Recipient, Server read %d bytes\n", count);//delete
                 //read message
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
                 }
-                //printf("Inside function-3-Message, Server read %d bytes\n", count);//delete
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0 && strcmp(Recipient, "")!=0)//In case ctrl+c
                 {
@@ -532,7 +512,6 @@ void* handleClient(void *arg)
                     perror("read");
                     exit(1);
                 }
-                //printf("Inside function-4-Message, Server read %d bytes\n", count);//delete
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0) //In case ctrl+c
                 {
@@ -546,12 +525,12 @@ void* handleClient(void *arg)
                 
                 printf("%s, %s posts a message for all connected users.\n",get_time_now().c_str(),client_name.c_str());
                 break;
-            case '5'://message to every known person ???
+            case '5':
                 if ((count = read(sd, Message, sizeof(Message)) ) == -1) {
                     perror("read");
                     exit(1);
                 }
-                //printf("Inside function-5-Message, Server read %d bytes\n", count);//delete
+
                 sem_wait(&Visit_Server_Data);
                 if (strcmp(Message, "")!=0) //In case ctrl+c
                 {
@@ -582,7 +561,6 @@ void* handleClient(void *arg)
             perror("write");
             exit(1);
         }
-        //printf("3.Server sent %d bytes\n", count);//delete
     }
     
     //socket close by ctrl+c in client side
